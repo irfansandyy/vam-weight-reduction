@@ -1,0 +1,21 @@
+{
+  "dataset": "synthetic",
+  "cases": 3000,
+  "methods": 20,
+  "archive": true,
+  "vrb": "Implementasi C monolitik teroptimasi. Waktu di arsip ini tidak berasal dari program modular.",
+  "rounds": 3,
+  "untimed_warmups": 1,
+  "seed": 2026110407,
+  "cpu": 0,
+  "cpu_model": "AMD Ryzen 7 8845HS w/ Radeon 780M Graphics",
+  "gcc": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "gpp": "g++ (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "boundary": "Waktu program lengkap, termasuk memulai proses, membaca data, menghitung solusi, menyiapkan keluaran, dan proses selesai.",
+  "summary": "Median pengulangan per kasus, lalu median, mean, min, max pada kasus dengan alokasi layak. Gap persen hanya untuk optimum positif.",
+  "pairs": "Dari sudut pandang VRB. Biaya dan runtime dibandingkan pada kasus yang kedua alokasinya layak. Waktu seri jika median nanodetik identik.",
+  "validation": "Biaya, hash alokasi, status, dan optimum dari arsip runtime dicocokkan dengan benchmark kualitas. Tiga pengulangan waktu dan median setiap kasus diverifikasi.",
+  "quality_source_sha256": "1d7b04a4bdd8c4ef836b16a00578933f08face985f0ed14c023ca2a6896407be",
+  "runtime_source_sha256": "d47d87d8f0006ecc94afae3ad894148cd2dc61ea4073dc848de02ae77de759df",
+  "historical_run_metadata_sha256": "bb9784a5bb69db541003aa089a8be657a62e5b63bf849b2178dbbe3710160c01"
+}

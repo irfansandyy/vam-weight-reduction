@@ -1,0 +1,28 @@
+{
+  "dataset": "69",
+  "case_method_records": 1380,
+  "timed_executions": 4140,
+  "valid_records": 1369,
+  "invalid_records": 11,
+  "baseline_exact": [
+    "valid",
+    "status",
+    "cost",
+    "allocation_hash",
+    "optimum"
+  ],
+  "baseline_mismatches": 0,
+  "aggregate_timing_quality_and_pairs_recomputed": true,
+  "standalone_smoke": {
+    "case": "G3_N33.txt",
+    "methods": 20,
+    "VRB": 1250,
+    "VAM": 1430
+  },
+  "file_sha256": {
+    "cases.csv": "d426f30c3c502bde2b8656068d8d44d448bf0e461b2990b4b7457f8b83164e95",
+    "summary.csv": "d90d7c64894c65123fe71449489ec0e734d636a74f2af51b6aab814e0302d593",
+    "summary.json": "3b0c47e7778384e2847c391499145622ad00efcfe069d8f5987adf791ccc3d04",
+    "protocol.json": "fddbe06f804f1416fac38c70aec04c41fc5fb717da9f11133145b69e2873cddb"
+  }
+}

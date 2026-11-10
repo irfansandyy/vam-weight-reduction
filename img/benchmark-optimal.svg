@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="835.2pt" height="406.8pt" viewBox="0 0 835.2 406.8" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <title>Solusi optimal pada dataset 69</title>
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title>Solusi optimal pada dataset 69</dc:title>
+    <dc:description>Jumlah kasus optimal dan persentasenya untuk VRB serta lima pembanding terbaik menurut gap rata-rata.</dc:description>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.10.7+dfsg1, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 406.8 
+L 835.2 406.8 
+L 835.2 0 
+L 0 0 
+z
+" style="fill: #fbfcfe"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 187.92 315.27 
+L 722.448 315.27 
+L 722.448 85.428 
+L 187.92 85.428 
+z
+" style="fill: #fbfcfe"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_1">
+      <path d="M 187.92 315.27 
+L 187.92 85.428 
+" clip-path="url(#pb1bd2daf20)" style="fill: none; stroke: #dbe2e9; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_2"/>
+     <g id="text_1">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #4a5b6c" x="187.92" y="331.868438" transform="rotate(-0 187.92 331.868438)">0</text>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_3">
+      <path d="M 265.387826 315.27 
+L 265.387826 85.428 
+" clip-path="url(#pb1bd2daf20)" style="fill: none; stroke: #dbe2e9; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_4"/>
+     <g id="text_2">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #4a5b6c" x="265.387826" y="331.868438" transform="rotate(-0 265.387826 331.868438)">10</text>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_5">
+      <path d="M 342.855652 315.27 
+L 342.855652 85.428 
+" clip-path="url(#pb1bd2daf20)" style="fill: none; stroke: #dbe2e9; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_6"/>
+     <g id="text_3">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #4a5b6c" x="342.855652" y="331.868438" transform="rotate(-0 342.855652 331.868438)">20</text>
+     </g>
+    </g>
+    <g id="xtick_4">
+     <g id="line2d_7">
+      <path d="M 420.323478 315.27 
+L 420.323478 85.428 
+" clip-path="url(#pb1bd2daf20)" style="fill: none; stroke: #dbe2e9; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_8"/>
+     <g id="text_4">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #4a5b6c" x="420.323478" y="331.868438" transform="rotate(-0 420.323478 331.868438)">30</text>
+     </g>
+    </g>
+    <g id="xtick_5">
+     <g id="line2d_9">
+      <path d="M 497.791304 315.27 
+L 497.791304 85.428 
+" clip-path="url(#pb1bd2daf20)" style="fill: none; stroke: #dbe2e9; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_10"/>
+     <g id="text_5">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #4a5b6c" x="497.791304" y="331.868438" transform="rotate(-0 497.791304 331.868438)">40</text>
+     </g>
+    </g>
+    <g id="xtick_6">
+     <g id="line2d_11">
+      <path d="M 575.25913 315.27 
+L 575.25913 85.428 
+" clip-path="url(#pb1bd2daf20)" style="fill: none; stroke: #dbe2e9; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_12"/>
+     <g id="text_6">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #4a5b6c" x="575.25913" y="331.868438" transform="rotate(-0 575.25913 331.868438)">50</text>
+     </g>
+    </g>
+    <g id="xtick_7">
+     <g id="line2d_13">
+      <path d="M 652.726957 315.27 
+L 652.726957 85.428 
+" clip-path="url(#pb1bd2daf20)" style="fill: none; stroke: #dbe2e9; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_14"/>
+     <g id="text_7">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #4a5b6c" x="652.726957" y="331.868438" transform="rotate(-0 652.726957 331.868438)">60</text>
+     </g>
+    </g>
+    <g id="xtick_8">
+     <g id="line2d_15">
+      <path d="M 722.448 315.27 
+L 722.448 85.428 
+" clip-path="url(#pb1bd2daf20)" style="fill: none; stroke: #dbe2e9; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_16"/>
+     <g id="text_8">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #4a5b6c" x="722.448" y="331.868438" transform="rotate(-0 722.448 331.868438)">69</text>
+     </g>
+    </g>
+    <g id="text_9">
+     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #4a5b6c" x="455.184" y="351.306406" transform="rotate(-0 455.184 351.306406)">Jumlah kasus yang mencapai biaya optimum</text>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2">
+    <g id="ytick_1">
+     <g id="line2d_17"/>
+     <g id="text_10">
+      <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #963646" x="172.92" y="111.018357" transform="rotate(-0 172.92 111.018357)">VRB tie-break</text>
+     </g>
+    </g>
+    <g id="ytick_2">
+     <g id="line2d_18"/>
+     <g id="text_11">
+      <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #3b6b63" x="172.92" y="148.574239" transform="rotate(-0 172.92 148.574239)">VRB lama</text>
+     </g>
+    </g>
+    <g id="ytick_3">
+     <g id="line2d_19"/>
+     <g id="text_12">
+      <text style="font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #182433" x="172.92" y="186.130121" transform="rotate(-0 172.92 186.130121)">TOCM-TDM1</text>
+     </g>
+    </g>
+    <g id="ytick_4">
+     <g id="line2d_20"/>
+     <g id="text_13">
+      <text style="font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #182433" x="172.92" y="223.686004" transform="rotate(-0 172.92 223.686004)">SAM terkoreksi</text>
+     </g>
+    </g>
+    <g id="ytick_5">
+     <g id="line2d_21"/>
+     <g id="text_14">
+      <text style="font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #182433" x="172.92" y="261.241886" transform="rotate(-0 172.92 261.241886)">RBSM</text>
+     </g>
+    </g>
+    <g id="ytick_6">
+     <g id="line2d_22"/>
+     <g id="text_15">
+      <text style="font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #182433" x="172.92" y="298.797768" transform="rotate(-0 172.92 298.797768)">VAM</text>
+     </g>
+    </g>
+   </g>
+   <g id="patch_3">
+    <path d="M 187.92 96.131426 
+L 613.993043 96.131426 
+L 613.993043 116.787162 
+L 187.92 116.787162 
+z
+" clip-path="url(#pb1bd2daf20)" style="fill: #963646"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 187.92 133.687309 
+L 613.993043 133.687309 
+L 613.993043 154.343044 
+L 187.92 154.343044 
+z
+" clip-path="url(#pb1bd2daf20)" style="fill: #3b6b63"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 187.92 171.243191 
+L 513.28487 171.243191 
+L 513.28487 191.898926 
+L 187.92 191.898926 
+z
+" clip-path="url(#pb1bd2daf20)" style="fill: #52718d"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 187.92 208.799074 
+L 559.765565 208.799074 
+L 559.765565 229.454809 
+L 187.92 229.454809 
+z
+" clip-path="url(#pb1bd2daf20)" style="fill: #52718d"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 187.92 246.354956 
+L 536.525217 246.354956 
+L 536.525217 267.010691 
+L 187.92 267.010691 
+z
+" clip-path="url(#pb1bd2daf20)" style="fill: #52718d"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 187.92 283.910838 
+L 466.804174 283.910838 
+L 466.804174 304.566574 
+L 187.92 304.566574 
+z
+" clip-path="url(#pb1bd2daf20)" style="fill: #52718d"/>
+   </g>
+   <g id="line2d_23">
+    <path d="M 187.92 315.27 
+L 187.92 85.428 
+" clip-path="url(#pb1bd2daf20)" style="fill: none; stroke: #8b9aaa; stroke-linecap: square"/>
+   </g>
+   <g id="text_16">
+    <text style="font-weight: 700; font-size: 11.1px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #182433" x="622.514504" y="109.5222" transform="rotate(-0 622.514504 109.5222)">55/69  (79,71%)</text>
+   </g>
+   <g id="text_17">
+    <text style="font-weight: 700; font-size: 11.1px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #182433" x="622.514504" y="147.078083" transform="rotate(-0 622.514504 147.078083)">55/69  (79,71%)</text>
+   </g>
+   <g id="text_18">
+    <text style="font-weight: 700; font-size: 11.1px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #182433" x="521.80633" y="184.633965" transform="rotate(-0 521.80633 184.633965)">42/69  (60,87%)</text>
+   </g>
+   <g id="text_19">
+    <text style="font-weight: 700; font-size: 11.1px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #182433" x="568.287026" y="222.189847" transform="rotate(-0 568.287026 222.189847)">48/69  (69,57%)</text>
+   </g>
+   <g id="text_20">
+    <text style="font-weight: 700; font-size: 11.1px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #182433" x="545.046678" y="259.74573" transform="rotate(-0 545.046678 259.74573)">45/69  (65,22%)</text>
+   </g>
+   <g id="text_21">
+    <text style="font-weight: 700; font-size: 11.1px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #182433" x="475.325635" y="297.301612" transform="rotate(-0 475.325635 297.301612)">36/69  (52,17%)</text>
+   </g>
+  </g>
+  <g id="line2d_24">
+   <path d="M 50.112 364.086 
+L 785.088 364.086 
+" style="fill: none; stroke: #dbe2e9; stroke-width: 0.9; stroke-linecap: square"/>
+  </g>
+  <g id="text_22">
+   <text style="font-weight: 700; font-size: 23px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #182433" x="49.2768" y="31.7304" transform="rotate(-0 49.2768 31.7304)">Solusi optimal pada dataset 69</text>
+  </g>
+  <g id="text_23">
+   <text style="font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #4a5b6c" x="50.9472" y="53.2908" transform="rotate(-0 50.9472 53.2908)">Lima pembanding dengan gap rata-rata terendah dan solusi layak pada semua 69 kasus</text>
+  </g>
+  <g id="text_24">
+   <text style="font-size: 10.1px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #4a5b6c" x="50.112" y="377.9172" transform="rotate(-0 50.112 377.9172)">Optimal berarti biaya solusi layak sama dengan optimum tersertifikasi.</text>
+  </g>
+  <g id="text_25">
+   <text style="font-size: 9.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #4a5b6c" x="50.112" y="392.9688" transform="rotate(-0 50.112 392.9688)">Sumber: hasil benchmark dataset 69, results/69/summary.json.</text>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pb1bd2daf20">
+   <rect x="187.92" y="85.428" width="534.528" height="229.842"/>
+  </clipPath>
+ </defs>
+</svg>

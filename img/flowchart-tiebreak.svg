@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1895" width="1200" height="1895" role="img" aria-labelledby="title description">
+  <title id="title">Pemilihan calon dan aturan seri VRB</title>
+  <desc id="description">Bagian A memilih satu sel minimum untuk setiap garis aktif. Bagian B mempertahankan calon menurut skor terbesar, FLC terkecil, minimum hitungan FLC terkecil, jumlah hitungan terkecil, alokasi terbesar, lalu indeks baris dan kolom terkecil. Bila satu calon tersisa, gunakan selnya.</desc>
+  <style>
+    text {font-family: Arial, Helvetica, sans-serif; fill:#183046;}
+    .title {font-size:42px;font-weight:700;letter-spacing:-.6px;}
+    .eyebrow {font-size:17px;letter-spacing:2.4px;font-weight:700;fill:#8c3740;}
+    .subtitle {font-size:21px;fill:#40566a;}
+    .box-title {font-size:25px;font-weight:700;}
+    .smalltitle {font-size:23px;font-weight:700;}
+    .body {font-size:21px;}
+    .small {font-size:20px;}
+    .question {font-size:22px;font-weight:700;}
+    .branch {font-size:19px;font-weight:700;fill:#3e566b;}
+    .terminal-text {font-size:24px;font-weight:700;fill:#fff;}
+    .loop-text {font-size:22px;font-weight:700;fill:#81323b;}
+    .fail-text {font-size:21px;font-weight:700;fill:#81323b;}
+    .section {font-size:26px;font-weight:700;fill:#244866;}
+    .foot {font-size:20px;fill:#40566a;}
+    .box,.emphasis,.decision,.terminal,.loop,.fail,.note {stroke-width:2;}
+    .box {fill:#fff;stroke:#879aab;}
+    .emphasis {fill:#eef5fa;stroke:#63819c;}
+    .decision {fill:#f6f9fc;stroke:#587189;}
+    .terminal {fill:#244866;stroke:#244866;}
+    .loop,.fail {fill:#fff0ef;stroke:#a96a70;}
+    .error {fill:#fff5f3;stroke:#b67b80;stroke-width:2;}
+    .note {fill:#f5f8fa;stroke:#ccd7e0;}
+    .connector {fill:none;stroke:#6e8295;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
+    .separator {fill:none;stroke:#d9e2ea;stroke-width:2;}
+    .dot {fill:#6e8295;}
+  </style>
+  <rect width="1200" height="1895" fill="#fff"/>
+  <path class="separator" d="M62 160 H1138"/>
+  <path class="separator" d="M589 196 V1767"/>
+  <path class="connector" d="M302 302 V336 M302 493 V527 M302 623 V655 M302 751 V793 M302 889 V921 M302 1017 V1059 M302 1171 V1211 M302 1307 V1340"/>
+  <path class="connector" d="M516 703 H563 V1259 H538 M516 969 H563"/>
+  <path class="connector" d="M844 302 V336"/>
+  <path class="connector" d="M844 424 V445 M1008 479 H1134 M844 513 V561"/>
+  <path class="connector" d="M844 649 V670 M1008 704 H1134 M844 738 V786"/>
+  <path class="connector" d="M844 874 V895 M1008 929 H1134 M844 963 V1011"/>
+  <path class="connector" d="M844 1099 V1120 M1008 1154 H1134 M844 1188 V1236"/>
+  <path class="connector" d="M844 1324 V1345 M1008 1379 H1134 M844 1413 V1461"/>
+  <path class="connector" d="M1134 479 V1714 H1072 M844 1588 V1666"/>
+  <path class="separator" d="M62 1806 H1138"/>
+  <text class="eyebrow" x="62" y="48">DIAGRAM 2</text>
+  <text class="title" x="62" y="99">Pemilihan calon dan aturan seri</text>
+  <text class="subtitle" x="62" y="137">Pilih satu calon per garis di A. Di setiap tahap B, pertahankan calon dengan nilai terbaik.</text>
+  <text class="section" x="63" y="209">A. Di dalam satu garis</text>
+  <text class="section" x="616" y="209">B. Antargaris</text>
+  <rect class="terminal" x="112.0" y="246" width="380" height="56" rx="28.0"/>
+  <text class="terminal-text" x="302" y="282.0" text-anchor="middle">Periksa satu garis aktif</text>
+  <rect class="box" x="66" y="336" width="472" height="157" rx="11"/>
+  <text class="box-title" x="89" y="372">A1. Ambil statistik biaya</text>
+  <text class="body" x="89" y="403">Baca biaya aktif yang sudah terurut.</text>
+  <text class="body" x="89" y="429">Ambil FLC, SLC, TLC, dan MAX.</text>
+  <text class="body" x="89" y="455">Dua sel: TLC = SLC.</text>
+  <text class="body" x="89" y="481">Satu sel: FLC = SLC = TLC = MAX.</text>
+  <rect class="box" x="66" y="527" width="472" height="96" rx="11"/>
+  <text class="box-title" x="89" y="563">A2. Saring sel minimum</text>
+  <text class="body" x="89" y="594">Pertahankan sel dengan biaya FLC.</text>
+  <polygon class="decision" points="302,655.0 516.0,703 302,751.0 88.0,703"/>
+  <text class="question" x="302" y="696.5" text-anchor="middle">Lebih dari</text>
+  <text class="question" x="302" y="723.5" text-anchor="middle">satu sel minimum?</text>
+  <text class="branch" x="325" y="779">Ya</text>
+  <text class="branch" x="534" y="685" text-anchor="middle">Tidak</text>
+  <text class="branch" x="534" y="951" text-anchor="middle">Tidak</text>
+  <circle class="dot" cx="563" cy="969" r="4.5"/>
+  <rect class="box" x="66" y="793" width="472" height="96" rx="11"/>
+  <text class="box-title" x="89" y="829">A3. Pilih alokasi terbesar</text>
+  <text class="body" x="89" y="860">q = min(sisa pasokan, sisa permintaan).</text>
+  <polygon class="decision" points="302,921.0 516.0,969 302,1017.0 88.0,969"/>
+  <text class="question" x="302" y="962.5" text-anchor="middle">Alokasi terbesar</text>
+  <text class="question" x="302" y="989.5" text-anchor="middle">masih seri?</text>
+  <text class="branch" x="325" y="1045">Ya</text>
+  <rect class="box" x="66" y="1059" width="472" height="112" rx="11"/>
+  <text class="box-title" x="89" y="1095">A4. Gunakan indeks terkecil</text>
+  <text class="body" x="89" y="1126">Jika menilai baris, pilih kolom terkecil.</text>
+  <text class="body" x="89" y="1152">Jika menilai kolom, pilih baris terkecil.</text>
+  <rect class="emphasis" x="66" y="1211" width="472" height="96" rx="11"/>
+  <text class="box-title" x="89" y="1247">A5. Simpan calon garis</text>
+  <text class="body" x="89" y="1278">Ulangi bagian A pada garis aktif lainnya.</text>
+  <rect class="terminal" x="105.5" y="1340" width="393" height="56" rx="28.0"/>
+  <text class="terminal-text" x="302" y="1376.0" text-anchor="middle">Jika selesai, lanjut ke B</text>
+  <text class="small" x="66" y="1435">SKOR = (SLC − FLC) × (MAX + TLC − FLC)</text>
+  <rect class="note" x="66" y="1453" width="472" height="236" rx="11"/>
+  <text class="box-title" x="89" y="1489">Cara membaca hitungan FLC</text>
+  <text class="body" x="89" y="1520">Fb: banyak sel minimum di baris calon.</text>
+  <text class="body" x="89" y="1546">Fk: banyak sel minimum di kolom calon.</text>
+  <text class="body" x="89" y="1572">Masing-masing memakai minimum</text>
+  <text class="body" x="89" y="1598">pada garisnya sendiri. Biaya calon</text>
+  <text class="body" x="89" y="1624">tidak harus minimum pada keduanya.</text>
+  <rect class="terminal" x="644.0" y="246" width="400" height="56" rx="28.0"/>
+  <text class="terminal-text" x="844" y="282.0" text-anchor="middle">Ambil semua calon garis</text>
+  <rect class="box" x="616" y="336" width="456" height="88" rx="11"/>
+  <text class="smalltitle" x="639" y="372">B1. SKOR terbesar</text>
+  <text class="small" x="639" y="403">Bandingkan skor garis pengusul.</text>
+  <polygon class="decision" points="844,445.0 1008.0,479 844,513.0 680.0,479"/>
+  <text class="question" x="844" y="486.0" text-anchor="middle">Masih seri?</text>
+  <text class="branch" x="1058" y="465" text-anchor="middle">Tidak</text>
+  <text class="branch" x="866" y="541">Ya</text>
+  <rect class="box" x="616" y="561" width="456" height="88" rx="11"/>
+  <text class="smalltitle" x="639" y="597">B2. FLC terkecil</text>
+  <text class="small" x="639" y="628">Bandingkan biaya reduksi sel calon.</text>
+  <polygon class="decision" points="844,670.0 1008.0,704 844,738.0 680.0,704"/>
+  <text class="question" x="844" y="711.0" text-anchor="middle">Masih seri?</text>
+  <text class="branch" x="1058" y="690" text-anchor="middle">Tidak</text>
+  <text class="branch" x="866" y="766">Ya</text>
+  <circle class="dot" cx="1134" cy="704" r="4.5"/>
+  <rect class="emphasis" x="616" y="786" width="456" height="88" rx="11"/>
+  <text class="smalltitle" x="639" y="822">B3. Minimum hitungan terkecil</text>
+  <text class="small" x="639" y="853">Bandingkan min(Fb, Fk).</text>
+  <polygon class="decision" points="844,895.0 1008.0,929 844,963.0 680.0,929"/>
+  <text class="question" x="844" y="936.0" text-anchor="middle">Masih seri?</text>
+  <text class="branch" x="1058" y="915" text-anchor="middle">Tidak</text>
+  <text class="branch" x="866" y="991">Ya</text>
+  <circle class="dot" cx="1134" cy="929" r="4.5"/>
+  <rect class="emphasis" x="616" y="1011" width="456" height="88" rx="11"/>
+  <text class="smalltitle" x="639" y="1047">B4. Jumlah hitungan terkecil</text>
+  <text class="small" x="639" y="1078">Bandingkan Fb + Fk.</text>
+  <polygon class="decision" points="844,1120.0 1008.0,1154 844,1188.0 680.0,1154"/>
+  <text class="question" x="844" y="1161.0" text-anchor="middle">Masih seri?</text>
+  <text class="branch" x="1058" y="1140" text-anchor="middle">Tidak</text>
+  <text class="branch" x="866" y="1216">Ya</text>
+  <circle class="dot" cx="1134" cy="1154" r="4.5"/>
+  <rect class="box" x="616" y="1236" width="456" height="88" rx="11"/>
+  <text class="smalltitle" x="639" y="1272">B5. ALOKASI terbesar</text>
+  <text class="small" x="639" y="1303">Bandingkan q yang dapat dikirim.</text>
+  <polygon class="decision" points="844,1345.0 1008.0,1379 844,1413.0 680.0,1379"/>
+  <text class="question" x="844" y="1386.0" text-anchor="middle">Masih seri?</text>
+  <text class="branch" x="1058" y="1365" text-anchor="middle">Tidak</text>
+  <text class="branch" x="866" y="1441">Ya</text>
+  <circle class="dot" cx="1134" cy="1379" r="4.5"/>
+  <rect class="box" x="616" y="1461" width="456" height="127" rx="11"/>
+  <text class="smalltitle" x="639" y="1497">B6. Indeks sel terkecil</text>
+  <text class="small" x="639" y="1528">Pilih indeks baris terkecil.</text>
+  <text class="small" x="639" y="1554">Jika baris sama, pilih kolom terkecil.</text>
+  <rect class="emphasis" x="616" y="1666" width="456" height="96" rx="11"/>
+  <text class="smalltitle" x="639" y="1702">Gunakan sel yang tersisa</text>
+  <text class="small" x="639" y="1733">Lanjutkan ke alokasi pada diagram 1.</text>
+  <text class="foot" x="62" y="1840">Jika dua garis mengusulkan sel yang sama, label garis tidak mengubah alokasi.</text>
+  <text class="foot" x="62" y="1872">Pada seri penuh untuk sel yang sama, kode memilih label baris lebih dahulu, lalu indeks garis.</text>
+</svg>

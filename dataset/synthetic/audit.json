@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "case_count": 3000,
+  "development_count": 1500,
+  "holdout_count": 1500,
+  "all_row_dimensions_3_to_100_present": true,
+  "all_column_dimensions_3_to_100_present": true,
+  "contains_3x3_and_100x100": true,
+  "unique_file_hash_count": 3000,
+  "balanced_count": 2550,
+  "unbalanced_count": 450,
+  "supply_excess_count": 225,
+  "demand_excess_count": 225,
+  "zero_margin_count": 150,
+  "landscape_count": 1193,
+  "portrait_count": 1191,
+  "square_count": 616,
+  "minimum_cost": 0,
+  "maximum_cost": 10018,
+  "total_cost_cells": 10130294,
+  "optimum_labels_present": false
+}

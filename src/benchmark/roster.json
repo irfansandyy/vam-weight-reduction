@@ -1,0 +1,405 @@
+[
+  {
+    "method": "VAM",
+    "source": "methods/VAM.c",
+    "compiled_source": "adapters/VAM_adapter.c",
+    "original_sha256": "203f6a2949b32c934af32bbe085ef9c64648929ed6c9cd05da24b99930f999c1",
+    "compiled_source_sha256": "0fa9c91db9752963e8209db466b974a4d0bc8c5fa0c9f57e217932185719230c",
+    "compiler": "gcc",
+    "flags": [
+      "-O2",
+      "-std=gnu11",
+      "-fwrapv",
+      "-w"
+    ],
+    "format": "marker",
+    "args": [
+      "{input}"
+    ],
+    "changes": [
+      "CLI input instead of fixed filename/menu",
+      "single input problem",
+      "allocation marker",
+      "suppress diagnostic printf",
+      "storage capacity 100 to205, decisions unchanged"
+    ]
+  },
+  {
+    "method": "SAM_original",
+    "source": "methods/SAM.c",
+    "compiled_source": "adapters/SAM_original_adapter.c",
+    "original_sha256": "809a1214193ce43c9f742c8c0fc3e74a7ed265e94b3c51d45c2074eea0f0d203",
+    "compiled_source_sha256": "d34565da3160650dd2f2504a8950d5fbce77126b10f8b6fb1f57c9513710bac6",
+    "compiler": "gcc",
+    "flags": [
+      "-O2",
+      "-std=gnu11",
+      "-fwrapv",
+      "-w"
+    ],
+    "format": "marker",
+    "args": [
+      "{input}"
+    ],
+    "changes": [
+      "CLI input instead of fixed filename/menu",
+      "single input problem",
+      "allocation marker",
+      "suppress diagnostic printf",
+      "retain cap20 and original tie formula",
+      "guard undefined row metric index; report failed run before invalid memory access"
+    ]
+  },
+  {
+    "method": "SAM_repaired",
+    "source": "methods/SAM.c",
+    "compiled_source": "adapters/SAM_repaired_adapter.c",
+    "original_sha256": "809a1214193ce43c9f742c8c0fc3e74a7ed265e94b3c51d45c2074eea0f0d203",
+    "compiled_source_sha256": "fc893d4f503f4245074e2493b79569b1f7e96b101f941020db5dadd4e3f98876",
+    "compiler": "gcc",
+    "flags": [
+      "-O2",
+      "-std=gnu11",
+      "-fwrapv",
+      "-w"
+    ],
+    "format": "marker",
+    "args": [
+      "{input}"
+    ],
+    "changes": [
+      "CLI input instead of fixed filename/menu",
+      "single input problem",
+      "allocation marker",
+      "suppress diagnostic printf",
+      "separate repaired variant: correct SLC row index",
+      "separate repaired variant: cap20 to1000000"
+    ]
+  },
+  {
+    "method": "RBSM",
+    "source": "methods/RBSM.cpp",
+    "compiled_source": "adapters/RBSM_adapter.cpp",
+    "original_sha256": "c189129c9e4087173f4b996e90dcb892d4e2b3e8015ae91346bb7f092ab5a71c",
+    "compiled_source_sha256": "f6078721cd6ed4bf9fa93332d372c430d825d6f78207922885279e0b1599b408",
+    "compiler": "g++",
+    "flags": [
+      "-O2",
+      "-std=gnu++17",
+      "-w",
+      "-fwrapv"
+    ],
+    "format": "marker",
+    "args": [
+      "{input}"
+    ],
+    "changes": [
+      "CLI input instead of fixed filename/menu",
+      "single input problem",
+      "allocation marker",
+      "suppress diagnostic printf",
+      "storage capacity 100 to205",
+      "export allocation on already-feasible early return"
+    ]
+  },
+  {
+    "method": "Fractional",
+    "source": "methods/fractional_vam2.cpp",
+    "compiled_source": "adapters/Fractional_adapter.cpp",
+    "original_sha256": "5046dc29f44ea93d344a68d362a9e9056205d2d6815f8fe46a412578c9d1b7da",
+    "compiled_source_sha256": "5d2e3d6e02de69fd0208fe10a824e7305fbf1a53ac2ef54a222b7f0236d2127b",
+    "compiler": "g++",
+    "flags": [
+      "-O2",
+      "-std=gnu++17",
+      "-w",
+      "-fwrapv"
+    ],
+    "format": "marker",
+    "args": [
+      "{input}"
+    ],
+    "changes": [
+      "CLI input instead of fixed filename/menu",
+      "single input problem",
+      "allocation marker",
+      "suppress diagnostic printf"
+    ]
+  },
+  {
+    "method": "VRB_lama",
+    "source": "methods/ModifiedVAM.c",
+    "compiled_source": "methods/ModifiedVAM.c",
+    "original_sha256": "52cee9abbffd9812c8973af8f74dd301c1396e2c66e4af07933517bc8e84f671",
+    "compiled_source_sha256": "52cee9abbffd9812c8973af8f74dd301c1396e2c66e4af07933517bc8e84f671",
+    "compiler": "gcc",
+    "flags": [
+      "-O2",
+      "-std=c11",
+      "-Wall",
+      "-Wextra",
+      "-Werror"
+    ],
+    "format": "json",
+    "args": [
+      "{input}",
+      "--json"
+    ],
+    "changes": []
+  },
+  {
+    "method": "VRB",
+    "format": "json",
+    "args": [
+      "{input}",
+      "--json"
+    ],
+    "prior_method": "VRB_tiebreak",
+    "changes": [
+      "Inti, input dan pelacakan dipisahkan tanpa mengubah keputusan alokasi."
+    ]
+  },
+  {
+    "method": "CSM",
+    "source": "methods/CSM.c",
+    "compiled_source": "methods/CSM.c",
+    "original_sha256": "a16669295adf8ad97f67a714c8334987b83b9cc80dc9f8b935351618fc8a333e",
+    "compiled_source_sha256": "a16669295adf8ad97f67a714c8334987b83b9cc80dc9f8b935351618fc8a333e",
+    "compiler": "gcc",
+    "flags": [
+      "-O2",
+      "-std=c11",
+      "-Wall",
+      "-Wextra",
+      "-Werror"
+    ],
+    "format": "marker",
+    "args": [
+      "{input}"
+    ],
+    "changes": []
+  },
+  {
+    "method": "NWCM_FIX",
+    "source": "methods/NWCM_FIX.cpp",
+    "compiled_source": "adapters/NWCM_FIX_adapter.cpp",
+    "original_sha256": "c22b0beec533d73f0f2367fcb7b33af8c43e7a87f35964ce016baef3b204f995",
+    "compiled_source_sha256": "76fa97a62fa7a3c45562bab576cd4520fb871656c2392764051cd3a7f0e8e528",
+    "compiler": "g++",
+    "flags": [
+      "-O2",
+      "-std=gnu++17",
+      "-w"
+    ],
+    "format": "json",
+    "args": [
+      "{input}"
+    ],
+    "changes": []
+  },
+  {
+    "method": "LCM2",
+    "source": "methods/LCM2.cpp",
+    "compiled_source": "adapters/LCM2_adapter.cpp",
+    "original_sha256": "6e2b02e8da7bc2408e6c3c9797f50b7c3e698fb8f70a4b21bd940967dafdb3ef",
+    "compiled_source_sha256": "8d545d675f19834e91dc47da163b7a943115458c294516c1cf3543a5e830a172",
+    "compiler": "g++",
+    "flags": [
+      "-O2",
+      "-std=gnu++17",
+      "-w"
+    ],
+    "format": "json",
+    "args": [
+      "{input}"
+    ],
+    "changes": []
+  },
+  {
+    "method": "LCM2_sentinel_fixed",
+    "source": "methods/LCM2.cpp",
+    "compiled_source": "adapters/LCM2_sentinel_fixed_adapter.cpp",
+    "original_sha256": "6e2b02e8da7bc2408e6c3c9797f50b7c3e698fb8f70a4b21bd940967dafdb3ef",
+    "compiled_source_sha256": "9c171b45b73fe7c13f677b732195d050ce5eac2acfed8ce0565da6f840a73b19",
+    "compiler": "g++",
+    "flags": [
+      "-O2",
+      "-std=gnu++17",
+      "-w"
+    ],
+    "format": "json",
+    "args": [
+      "{input}"
+    ],
+    "changes": []
+  },
+  {
+    "method": "CSM2_int64",
+    "source": "methods/Program CSM2.cpp",
+    "compiled_source": "adapters/CSM2_int64_adapter.cpp",
+    "original_sha256": "895c415ef66041dbb885b4fbb0a8fa5c54a0efc634e993aa5b9ef941acc223bf",
+    "compiled_source_sha256": "7c0a505e310f4bb909a1e4c91721e1c35dafae6eec71e16459a0a919fbaf88a0",
+    "compiler": "g++",
+    "flags": [
+      "-O2",
+      "-std=gnu++17",
+      "-w"
+    ],
+    "format": "json",
+    "args": [
+      "{input}"
+    ],
+    "changes": []
+  },
+  {
+    "method": "CSM2_original",
+    "source": "methods/Program CSM2.cpp",
+    "compiled_source": "adapters/CSM2_original_adapter.cpp",
+    "original_sha256": "895c415ef66041dbb885b4fbb0a8fa5c54a0efc634e993aa5b9ef941acc223bf",
+    "compiled_source_sha256": "fd3769d450d2a3bbd05cb9265885bfa650f91339c35964055c51308e3a9c6068",
+    "compiler": "g++",
+    "flags": [
+      "-O2",
+      "-std=gnu++17",
+      "-w"
+    ],
+    "format": "json",
+    "args": [
+      "{input}"
+    ],
+    "changes": []
+  },
+  {
+    "method": "RCWMCAM",
+    "source": "methods/RCWMCAM.c",
+    "compiled_source": "adapters/RCWMCAM_adapter.c",
+    "original_sha256": "09f9e922d1c7b2076adc4ddef33416d7ef81f09f86195e57f2af72288ba60042",
+    "compiled_source_sha256": "f019af7f51fe70c4dccb2a4c1368d0c3ec58ef701c153775d0d9ceee0926b76e",
+    "compiler": "gcc",
+    "flags": [
+      "-O2",
+      "-std=gnu99",
+      "-D_DEFAULT_SOURCE",
+      "-w"
+    ],
+    "format": "marker",
+    "args": [
+      "{input}"
+    ],
+    "changes": []
+  },
+  {
+    "method": "IHW",
+    "source": "methods/IHW.c",
+    "compiled_source": "adapters/IHW_adapter.c",
+    "original_sha256": "c682c07aa62e1ddcad5546e7a64db0e2f7c84abb5653f56d45ff31354c0235bd",
+    "compiled_source_sha256": "dbbab246d689a44320cbc9bb437cf9c8cdca8c0c9907446cf2456257a4909a51",
+    "compiler": "gcc",
+    "flags": [
+      "-O2",
+      "-std=gnu99",
+      "-D_DEFAULT_SOURCE",
+      "-w"
+    ],
+    "format": "marker",
+    "args": [
+      "{input}"
+    ],
+    "changes": []
+  },
+  {
+    "method": "EXP-ICHW",
+    "source": "methods/EXP-ICHW.c",
+    "compiled_source": "adapters/EXP-ICHW_adapter.c",
+    "original_sha256": "69e1664116c4631ad0e1f37455a9fcf1f8aef19a8630ed70808b8660df1cc4ac",
+    "compiled_source_sha256": "aac03005d9453c43b42b60b66906138f5df4a452363c980bc70ce04229c8e08c",
+    "compiler": "gcc",
+    "flags": [
+      "-O2",
+      "-std=gnu99",
+      "-D_DEFAULT_SOURCE",
+      "-w"
+    ],
+    "format": "marker",
+    "args": [
+      "{input}"
+    ],
+    "changes": []
+  },
+  {
+    "method": "TOCM-TDM1",
+    "source": "methods/TOCM-TDM1.c",
+    "compiled_source": "adapters/TOCM-TDM1_adapter.c",
+    "original_sha256": "15f484247703b3af7b6b9392831c0d8536bf342dbc1b8415e8e0a10c25c866a0",
+    "compiled_source_sha256": "739850ed71b62c243c53d6b1db34dfc8eea2d505cbc85fe7dbe2205091305b98",
+    "compiler": "gcc",
+    "flags": [
+      "-O2",
+      "-std=gnu11",
+      "-fwrapv",
+      "-w"
+    ],
+    "format": "marker",
+    "args": [
+      "{input}"
+    ],
+    "changes": []
+  },
+  {
+    "method": "BCE",
+    "source": "methods/BCE.c",
+    "compiled_source": "adapters/BCE_adapter.c",
+    "original_sha256": "fb5bcab1a6f97b1592cbff79871c27a57db2ac62777715ce604482b599d47b19",
+    "compiled_source_sha256": "d4a0808db52522e23631cc8545e498b8b04cd9ecd9d5f41f6203bc6ba18e5421",
+    "compiler": "gcc",
+    "flags": [
+      "-O2",
+      "-std=gnu11",
+      "-fwrapv",
+      "-w"
+    ],
+    "format": "marker",
+    "args": [
+      "{input}"
+    ],
+    "changes": []
+  },
+  {
+    "method": "PowerRank",
+    "source": "methods/PowerRank.c",
+    "compiled_source": "adapters/PowerRank_adapter.c",
+    "original_sha256": "7cd6c8a40909c47915d543d2998397e79b8eed0e29f35f25d3f298168f98dc4f",
+    "compiled_source_sha256": "a8f8343f192afadd208ffc67eba882407eb84bb049266eb1e6e90a69cd5630c4",
+    "compiler": "gcc",
+    "flags": [
+      "-O2",
+      "-std=gnu11",
+      "-fwrapv",
+      "-w"
+    ],
+    "format": "marker",
+    "args": [
+      "{input}"
+    ],
+    "changes": []
+  },
+  {
+    "method": "JHM_langsung",
+    "source": "methods/JHM_langsung.c",
+    "compiled_source": "adapters/JHM_langsung_adapter.c",
+    "original_sha256": "6949bba9e95229f64805696df05bcb01df6d3e0fd992f8cc00e28845cc40f4cf",
+    "compiled_source_sha256": "ba610d4bad19540dcebdb9ae5ce21e53ff5978692d5aa19d6b9286a372cf5f72",
+    "compiler": "gcc",
+    "flags": [
+      "-O2",
+      "-std=gnu11",
+      "-fwrapv",
+      "-w"
+    ],
+    "format": "marker",
+    "args": [
+      "{input}"
+    ],
+    "changes": []
+  }
+]
