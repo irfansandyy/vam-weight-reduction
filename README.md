@@ -4,10 +4,13 @@ Program C ini mencari solusi awal untuk masalah transportasi. Masukkan biaya pen
 
 ## Menjalankan program
 
-Kompilasi dengan `make` dan compiler C yang mendukung C11.
+Kompilasi program dengan GCC atau Clang dalam mode C11.
 
 ```sh
-make
+mkdir -p build
+cc -std=c11 -O2 -Isrc/vrb -Isrc/helper \
+  src/vrb/main.c src/vrb/vrb.c src/helper/input.c src/helper/trace.c \
+  -o build/vrb
 ./build/vrb dataset/69/G3_N33.txt
 ./build/vrb dataset/69/G3_N33.txt --trace
 ```
@@ -31,8 +34,8 @@ Misalkan ada $m$ sumber dan $n$ tujuan. Sebuah sel $(i,j)$ mewakili rute dari su
 
 | Simbol | Arti |
 |---|---|
-| $c_{ij}$ | Biaya asli untuk mengirim satu unit pada sel $(i,j)$ |
-| $x_{ij}$ | Jumlah yang dialokasikan pada sel $(i,j)$ |
+| $C(i,j)$ | Biaya asli untuk mengirim satu unit pada sel $(i,j)$ |
+| $X(i,j)$ | Jumlah yang dialokasikan pada sel $(i,j)$ |
 | $s_i$, $d_j$ | Pasokan sumber $i$ dan permintaan tujuan $j$ pada awal masalah yang sudah seimbang |
 | $s_i^{(t)}$, $d_j^{(t)}$ | Pasokan dan permintaan yang masih tersisa sebelum iterasi $t$ |
 | $I_t$, $J_t$ | Himpunan baris dan kolom yang sisanya masih positif pada iterasi $t$ |
@@ -41,10 +44,10 @@ Tujuannya meminimalkan biaya total dengan memenuhi seluruh pasokan dan permintaa
 
 $$
 \begin{aligned}
-Z(X) &= \sum_{i=1}^{m}\sum_{j=1}^{n} c_{ij}x_{ij},\\
-\sum_{j=1}^{n}x_{ij} &= s_i &&\text{untuk setiap sumber } i,\\
-\sum_{i=1}^{m}x_{ij} &= d_j &&\text{untuk setiap tujuan } j,\\
-x_{ij} &\ge 0 &&\text{untuk setiap sel } (i,j).
+Z(X) &= \sum_{i=1}^{m}\sum_{j=1}^{n} C(i,j)X(i,j),\\
+\sum_{j=1}^{n}X(i,j) &= s_i &&\text{untuk setiap sumber } i,\\
+\sum_{i=1}^{m}X(i,j) &= d_j &&\text{untuk setiap tujuan } j,\\
+X(i,j) &\ge 0 &&\text{untuk setiap sel } (i,j).
 \end{aligned}
 $$
 
@@ -71,7 +74,7 @@ Pilih garis dengan penalti terbesar, lalu pilih sel berbiaya terkecil di garis i
 $$
 \begin{aligned}
 q_{ij}&=\min\bigl(s_i^{(t)},d_j^{(t)}\bigr),\\
-x_{ij}^{(t+1)}&=x_{ij}^{(t)}+q_{ij},\\
+X^{(t+1)}(i,j)&=X^{(t)}(i,j)+q_{ij},\\
 s_i^{(t+1)}&=s_i^{(t)}-q_{ij},\qquad
 d_j^{(t+1)}=d_j^{(t)}-q_{ij}.
 \end{aligned}
@@ -92,107 +95,130 @@ Tutup baris atau kolom yang sisanya nol, lalu hitung ulang penalti pada sel yang
 
 Kolom 1 memiliki penalti terbesar, yaitu $6-3=3$. VAM memilih $(1,1)$ dan mengalokasikan $\min(90,70)=70$ unit dengan biaya $70\times3=210$. Setelah kolom 1 ditutup, biaya aktif baris 3 tinggal $[10,7]$. Penaltinya $10-7=3$, terbesar pada iterasi 2. VAM memilih $(3,3)$ dan mengalokasikan $\min(100,80)=80$ unit dengan biaya $80\times7=560$. Biaya kumulatifnya menjadi 770.
 
-## Cara kerja VRB
+## Langkah informal VRB
 
-VRB mengubah tiga bagian dari VAM: biaya yang dipakai untuk menilai calon, cara memberi bobot pada penalti, dan urutan pemilihan saat seri.
+1. **Siapkan tabel transportasi.** Isi biaya asli $C(i,j)$, pasokan tiap baris, dan permintaan tiap kolom. Jika pasokan lebih besar, tambah kolom dummy. Jika permintaan lebih besar, tambah baris dummy. Isi margin dummy sebesar selisih kedua total dan beri biaya nol pada sel dummy.
+2. **Reduksi biaya sekali di awal.**
+   - Kurangi biaya setiap sel aktif dengan biaya terkecil pada barisnya.
+   - Dari hasil tersebut, kurangi lagi dengan biaya terkecil pada kolomnya. Hasilnya adalah biaya tereduksi $C'(i,j)$.
+3. **Hitung skor setiap baris dan kolom yang masih aktif.**
+   - Baca biaya tereduksi dari yang terkecil. Ambil biaya pertama (**FLC**), kedua (**SLC**), ketiga (**TLC**), dan terbesar (**MAX**). Biaya yang sama tetap dihitung pada posisi terpisah.
+   - Jika ada dua sel aktif, samakan TLC dengan SLC. Jika tinggal satu sel, samakan keempat nilai dengan biaya sel tersebut.
+   - Hitung **PENALTI** = SLC − FLC, **BOBOT** = MAX + (TLC − FLC), dan **SKOR** = PENALTI × BOBOT.
+4. **Ambil satu calon dari tiap baris dan kolom aktif.** Pilih sel berbiaya FLC pada baris atau kolom tersebut. Jika ada beberapa, pilih yang bisa menerima unit terbanyak. Jumlah itu adalah nilai terkecil antara sisa pasokan dan sisa permintaan. Jika masih seri, pilih indeks kolom terkecil untuk calon dari baris atau indeks baris terkecil untuk calon dari kolom.
+5. **Pilih calon dengan skor terbesar.** Jika skor seri, bandingkan kriteria di bawah satu per satu. **Fb** dan **Fk** adalah jumlah sel aktif yang mencapai biaya minimum pada baris dan kolom sel calon, masing-masing berdasarkan minimum garisnya sendiri.
+   1. FLC pada garis pengusul paling kecil.
+   2. Nilai **Min** paling kecil, yaitu nilai terkecil antara Fb dan Fk.
+   3. Nilai **Jumlah** paling kecil, yaitu Fb + Fk.
+   4. Jumlah unit yang dapat dialokasikan paling besar.
+   5. Indeks baris sel paling kecil, kemudian indeks kolom sel paling kecil.
+   6. Jika keduanya mengusulkan sel yang sama dan semua kriteria seri, pilih label pengusul baris.
+6. **Alokasikan unit dan perbarui tabel.** Kurangi sisa pasokan dan permintaan sesuai jumlah yang dikirim. Tutup setiap baris atau kolom yang sisanya nol. Jika masih ada pasokan, ulangi dari langkah 3 dengan biaya tereduksi dan sel yang masih aktif. Jika seluruh margin sudah nol, lanjut ke langkah 7.
+7. **Hitung biaya akhir.** Kalikan alokasi pada setiap sel dengan biaya asli $C(i,j)$, lalu jumlahkan. Periksa bahwa total alokasi tiap baris dan kolom memenuhi pasokan dan permintaannya.
 
-### Reduksi biaya satu kali
+## Langkah formal VRB
 
-Setelah masalah seimbang, kurangi minimum masing-masing baris aktif dari biaya di baris itu. Dari hasil tersebut, kurangi minimum masing-masing kolom aktif. Untuk sel aktif awal:
+VRB mereduksi biaya sekali, memberi bobot pada penalti, dan memakai jumlah pilihan minimum untuk membandingkan calon yang seri. Notasi $C(i,j)$ menyatakan biaya asli per unit dari sumber $i$ ke tujuan $j$, sedangkan $C'(i,j)$ menyatakan biaya setelah reduksi.
 
-$$
-\begin{aligned}
-r_i &= \min_{j\in J_1} c_{ij},\\
-k_j &= \min_{i\in I_1}(c_{ij}-r_i),\\
-c'_{ij} &= c_{ij}-r_i-k_j.
-\end{aligned}
-$$
+### Langkah 1. Susun dan seimbangkan tabel transportasi
 
-$r_i$ adalah pengurang baris, $k_j$ pengurang kolom, dan $c'_{ij}$ biaya tereduksi. Garis yang sisanya nol sejak awal tidak ikut direduksi dan tidak menerima alokasi. Setelah suatu garis ditutup, VRB memperbarui statistik pada sel yang tersisa tanpa mereduksi ulang matriks. [Diagne dan Gningue](https://www.m-hikari.com/ams/ams-2011/ams-45-48-2011/sanghareAMS45-48-2011.pdf) juga memakai reduksi pada varian VAM mereka, dengan reduksi ulang setelah setiap alokasi.
+Susun matriks $C$ berukuran $m\times n$, vektor pasokan $s_i$, dan vektor permintaan $d_j$. Hitung total pasokan $S=\sum_i s_i$ dan total permintaan $D=\sum_j d_j$.
 
-Reduksi tidak mengubah urutan biaya solusi layak. Setiap solusi layak memiliki jumlah baris $s_i$ dan jumlah kolom $d_j$ yang sama, sehingga selisih biaya asli dan biaya tereduksi selalu konstanta berikut:
+- Jika $S>D$, tambahkan kolom dummy dengan permintaan $S-D$.
+- Jika $D>S$, tambahkan baris dummy dengan pasokan $D-S$.
+- Jika $S=D$, gunakan tabel yang sudah seimbang.
 
-$$
-Z(X)-\sum_{i=1}^{m}\sum_{j=1}^{n}c'_{ij}x_{ij}
-=\sum_{i=1}^{m}r_i s_i+\sum_{j=1}^{n}k_j d_j.
-$$
+Tetapkan $C(i,j)=0$ untuk seluruh sel dummy. Gunakan ukuran tabel setelah penyeimbangan untuk $m$ dan $n$ pada langkah berikutnya. Mulai dengan $X^{(1)}(i,j)=0$ untuk setiap sel, $s_i^{(1)}=s_i$, dan $d_j^{(1)}=d_j$. Jika total pasokan setelah penyeimbangan nol, langsung ke Langkah 9.
 
-Reduksi tetap dapat mengubah pilihan VRB karena VRB membandingkan biaya **sel** untuk membentuk alokasi. Identitas ini tidak membuktikan bahwa keputusan VRB pasti optimal. Program menghitung biaya akhir dengan $c_{ij}$.
+### Langkah 2. Reduksi biaya satu kali
 
-Pada G3_N33, minimum baris adalah $(3,4,6)$, dan minimum kolom setelah reduksi baris adalah $(0,0,0)$. Maka:
-
-$$
-C=
-\begin{bmatrix}
-3&3&5\\6&5&4\\6&10&7
-\end{bmatrix}
-\qquad
-C'=
-\begin{bmatrix}
-0&0&2\\2&1&0\\0&4&1
-\end{bmatrix}.
-$$
-
-Pada contoh ini, konstanta reduksi adalah $3(90)+4(80)+6(100)=1190$. Biaya tereduksi alokasi VRB adalah $30(1)+30(1)=60$, sehingga biaya asli menjadi $1190+60=1250$. Alokasi VAM memiliki biaya tereduksi 240 dan biaya asli $1190+240=1430$. Selisih biaya tetap 180 pada kedua matriks.
-
-### Penalti, bobot, dan skor
-
-| Simbol pada garis $\ell$ | Arti |
-|---|---|
-| $\mathrm{FLC}_\ell$ | Biaya tereduksi aktif terkecil |
-| $\mathrm{SLC}_\ell$ | Biaya pada posisi kedua setelah diurutkan |
-| $\mathrm{TLC}_\ell$ | Biaya pada posisi ketiga setelah diurutkan |
-| $\mathrm{MAX}_\ell$ | Biaya tereduksi aktif terbesar |
-| $P_\ell$, $B_\ell$, $S_\ell$ | Penalti, bobot, dan skor VRB |
-
-Urutan biaya memasukkan nilai yang berulang. Jika hanya ada dua sel aktif, TLC disamakan dengan SLC. Jika tinggal satu sel, keempat statistik sama dengan biaya sel itu sehingga penaltinya dan skornya nol.
+Baris aktif adalah baris dengan sisa pasokan positif. Kolom aktif adalah kolom dengan sisa permintaan positif. Pada awal proses, himpunan keduanya adalah $I_1=\{i:s_i>0\}$ dan $J_1=\{j:d_j>0\}$. Hitung minimum baris $r_i$, lalu minimum kolom $k_j$ dari biaya yang sudah dikurangi minimum baris.
 
 $$
 \begin{aligned}
-P_\ell &= \mathrm{SLC}_\ell-\mathrm{FLC}_\ell,\\
-B_\ell &= \mathrm{MAX}_\ell+(\mathrm{TLC}_\ell-\mathrm{FLC}_\ell),\\
-S_\ell &= P_\ell\,B_\ell.
+r_i &= \min_{j\in J_1} C(i,j), && i\in I_1,\\
+k_j &= \min_{i\in I_1} \bigl(C(i,j)-r_i\bigr), && j\in J_1,\\
+C'(i,j) &= C(i,j)-r_i-k_j, && (i,j)\in I_1\times J_1.
 \end{aligned}
 $$
 
-Penalti masih mengukur jarak dari pilihan termurah ke pilihan berikutnya. Bobot menambah pengaruh biaya terbesar dan jarak ke biaya ketiga. Pada kolom 2 di iterasi pertama G3_N33, biaya tereduksi terurut adalah $[0,1,4]$. Penalti $1-0=1$, bobot $4+(4-0)=8$, dan skor $1\times8=8$. Baris 3 mendapat skor 8 juga. Pada iterasi 2, kolom 2 tinggal punya biaya $[1,4]$. TLC menjadi 4 dan skornya $(4-1)\bigl(4+(4-1)\bigr)=21$.
+Untuk setiap alokasi layak $X$, pengurang biaya total selalu sama karena jumlah alokasi pada setiap baris dan kolom sudah ditentukan oleh marginnya. Gunakan $r_i=0$ atau $k_j=0$ pada garis yang tidak aktif sejak awal. Sel yang tidak ikut reduksi menyimpan biaya aslinya.
 
-### Memilih sel dan menyelesaikan seri
+$$
+\sum_{i=1}^{m}\sum_{j=1}^{n} C(i,j)X(i,j)
+-
+\sum_{i=1}^{m}\sum_{j=1}^{n} C'(i,j)X(i,j)
+=
+\sum_{i=1}^{m}r_i s_i+\sum_{j=1}^{n}k_j d_j.
+$$
 
-**Dalam satu garis**, pilih sel dengan biaya FLC. Jika ada beberapa sel dengan biaya itu, ambil $q_{ij}$ terbesar. Jika masih sama, ambil indeks pasangan terkecil, yaitu indeks kolom untuk calon dari baris atau indeks baris untuk calon dari kolom. Sebagai contoh, baris 1 G3_N33 mempunyai dua biaya nol pada kolom 1 dan 2. Kapasitas masing-masing adalah $\min(90,70)=70$ dan $\min(90,120)=90$, sehingga calon baris 1 adalah $(1,2)$.
+Pengurangan konstanta tersebut mempertahankan urutan biaya antar solusi layak. Biaya relatif antar sel tetap dapat berubah, sehingga reduksi memengaruhi pilihan calon VRB. [Diagne dan Gningue](https://www.m-hikari.com/ams/ams-2011/ams-45-48-2011/sanghareAMS45-48-2011.pdf) juga memakai reduksi dalam varian VAM mereka dan menerapkannya kembali setelah setiap alokasi.
 
-**Antar garis**, periksa jumlah pilihan minimum pada baris dan kolom dari sel calon. Setiap hitungan memakai minimum garisnya sendiri.
+### Langkah 3. Tentukan FLC, SLC, TLC, dan MAX
+
+Pada awal iterasi $t$, ambil $I_t=\{i:s_i^{(t)}>0\}$ dan $J_t=\{j:d_j^{(t)}>0\}$. Satu garis $\ell$ adalah satu baris dari $I_t$ atau satu kolom dari $J_t$. Untuk tiap garis, baca biaya $C'(i,j)$ dari sel yang masih aktif dalam urutan $v_{\ell,1}\le \cdots\le v_{\ell,h}$, dengan $h$ jumlah sel aktif pada garis tersebut. Jika biaya sama, urutkan menurut indeks pasangan terkecil, yaitu indeks kolom pada daftar baris atau indeks baris pada daftar kolom.
 
 $$
 \begin{aligned}
-N_i^{\mathrm{baris}}
-&=\#\bigl\{k\in J_t : c'_{ik}=\min_{j\in J_t}c'_{ij}\bigr\},\\
-N_j^{\mathrm{kolom}}
-&=\#\bigl\{k\in I_t : c'_{kj}=\min_{i\in I_t}c'_{ij}\bigr\},\\
-K_{ij}^{\min}&=\min\bigl(N_i^{\mathrm{baris}},N_j^{\mathrm{kolom}}\bigr),\\
-K_{ij}^{\mathrm{jumlah}}&=N_i^{\mathrm{baris}}+N_j^{\mathrm{kolom}}.
+\mathrm{FLC}_\ell &= v_{\ell,1},&
+\mathrm{SLC}_\ell &= v_{\ell,\min(2,h)},\\
+\mathrm{TLC}_\ell &= v_{\ell,\min(3,h)},&
+\mathrm{MAX}_\ell &= v_{\ell,h}.
 \end{aligned}
 $$
 
-Pada keluaran JSON, $N_i^{\mathrm{baris}}$ dan $N_j^{\mathrm{kolom}}$ diberi nama `FLC_ROW_COUNT` dan `FLC_COLUMN_COUNT`. Pada tabel jejak, keduanya tampil sebagai **Fb** dan **Fk**, lalu $K_{ij}^{\min}$ dan $K_{ij}^{\mathrm{jumlah}}$ tampil sebagai **Min** dan **Jumlah**. Misalnya, pada iterasi 2 G3_N33, kolom 2 mengusulkan sel $(2,2)$ dengan biaya tereduksi 1. Minimum baris 2 justru 0 pada sel $(2,3)$, sehingga Fb menghitung sel berbiaya 0 pada baris itu. Hitungan ini memberi prioritas pada calon dengan lebih sedikit alternatif di biaya minimum. Bandingkan kriteria berikut satu per satu sampai ada yang berbeda:
+FLC, SLC, dan TLC masing-masing adalah *First*, *Second*, dan *Third Least Cost*. Biaya yang sama tetap mengisi posisi terpisah. Sebagai contoh, biaya $[0,0,2]$ memberi FLC dan SLC sama-sama 0. Jika ada dua sel, TLC sama dengan SLC. Jika hanya ada satu sel, keempat nilai sama.
 
-1. SKOR terbesar.
-2. FLC calon terkecil.
-3. $K_{ij}^{\min}$ terkecil.
-4. $K_{ij}^{\mathrm{jumlah}}$ terkecil.
-5. $q_{ij}$ terbesar.
-6. Indeks baris terkecil, kemudian indeks kolom terkecil.
+### Langkah 4. Hitung penalti, bobot, dan skor
 
-Jika calon baris dan kolom mengacu pada sel yang sama dan tetap seri, kode memilih label baris lebih dahulu. Alokasi dan biaya selnya tetap sama.
+Untuk setiap garis aktif $\ell$, gunakan statistik dari Langkah 3.
 
-| Calon pada iterasi 1 G3_N33 | Sel | SKOR | FLC | Fb | Fk | Min | Jumlah | Alokasi |
-|---|---|---:|---:|---:|---:|---:|---:|---:|
-| Baris 3 | (3,1) | 8 | 0 | 1 | 2 | 1 | 3 | 70 |
-| Kolom 2 | (1,2) | 8 | 0 | 2 | 1 | 1 | 3 | 90 |
+$$
+\begin{aligned}
+\mathrm{PENALTI}_\ell &= \mathrm{SLC}_\ell-\mathrm{FLC}_\ell,\\
+\mathrm{BOBOT}_\ell &= \mathrm{MAX}_\ell+\bigl(\mathrm{TLC}_\ell-\mathrm{FLC}_\ell\bigr),\\
+\mathrm{SKOR}_\ell &= \mathrm{PENALTI}_\ell\,\mathrm{BOBOT}_\ell.
+\end{aligned}
+$$
 
-Pada $(3,1)$, baris 3 mempunyai satu nol dan kolom 1 mempunyai dua nol. Jadi nilai min adalah $\min(1,2)=1$, dan jumlahnya $1+2=3$. Pada $(1,2)$, hasilnya juga 1 dan 3. Kelangkaannya seri, sehingga alokasi 90 menang atas 70. Kode menutup baris 1 dan menyisakan 30 unit permintaan di kolom 2.
+Penalti mengukur selisih dari pilihan termurah ke posisi kedua. Bobot menambah pengaruh biaya terbesar dan jarak ke posisi ketiga. Pada garis dengan satu sel aktif, penalti dan skor bernilai nol.
 
-**Saat kelangkaan menentukan pilihan.** Pada ilustrasi di luar benchmark, gunakan baris biaya $[0,1,1]$, $[1,0,1]$, $[0,1,0]$ dengan pasokan dan permintaan $(8,4,6)$. Semua minimum baris dan kolom bernilai nol, jadi matriks tetap sama setelah reduksi. Berikut sel calon dari garis yang seri pada skor tertinggi 2 dan FLC 0.
+### Langkah 5. Bentuk satu calon dari setiap garis aktif
+
+Untuk setiap garis $\ell$, pertimbangkan sel aktif $(i,j)$ yang memenuhi $C'(i,j)=\mathrm{FLC}_\ell$. Hitung jumlah yang dapat dikirim ke tiap sel tersebut.
+
+$$
+q_t(i,j)=\min\bigl(s_i^{(t)},d_j^{(t)}\bigr).
+$$
+
+Pilih sel dengan $q_t(i,j)$ terbesar. Jika nilainya sama, ambil indeks pasangan terkecil sesuai urutan pada Langkah 3. Calon membawa skor dan FLC dari garis pengusul. Satu sel dapat diusulkan oleh baris dan kolom dengan skor yang berbeda.
+
+### Langkah 6. Pilih calon dan pecahkan seri antar garis
+
+Untuk tiap sel calon $(i,j)$, hitung berapa sel aktif yang memiliki biaya minimum pada baris $i$ dan kolom $j$. Masing-masing hitungan memakai minimum garisnya sendiri.
+
+$$
+\begin{aligned}
+N_i^{\mathrm{baris}} &= \left|\left\{k\in J_t:C'(i,k)=\min_{j'\in J_t}C'(i,j')\right\}\right|,\\
+N_j^{\mathrm{kolom}} &= \left|\left\{k\in I_t:C'(k,j)=\min_{i'\in I_t}C'(i',j)\right\}\right|,\\
+K_{\min}(i,j)&=\min\bigl(N_i^{\mathrm{baris}},N_j^{\mathrm{kolom}}\bigr),\\
+K_{\mathrm{jumlah}}(i,j)&=N_i^{\mathrm{baris}}+N_j^{\mathrm{kolom}}.
+\end{aligned}
+$$
+
+Pada jejak teks, dua hitungan pertama tampil sebagai **Fb** dan **Fk**, lalu dua hasilnya tampil sebagai **Min** dan **Jumlah**. Misalnya, pada iterasi 2 G3_N33, kolom 2 mengusulkan $(2,2)$ dengan biaya tereduksi 1. Fb tetap menghitung sel $(2,3)$ karena minimum baris 2 adalah 0 pada sel itu.
+
+Bandingkan calon dengan urutan berikut. Lanjutkan ke kriteria berikutnya selama nilainya masih seri.
+
+1. SKOR garis pengusul terbesar.
+2. FLC garis pengusul terkecil.
+3. $K_{\min}(i,j)$ terkecil.
+4. $K_{\mathrm{jumlah}}(i,j)$ terkecil.
+5. $q_t(i,j)$ terbesar.
+6. Indeks baris $i$ terkecil, lalu indeks kolom $j$ terkecil.
+7. Jika dua calon mengusulkan sel yang sama dan seluruh kriteria sebelumnya seri, dahulukan label pengusul baris. Kedua calon memberi alokasi yang sama.
+
+Hitungan minimum memberi prioritas pada calon dengan pilihan termurah yang lebih sedikit. Sebagai ilustrasi, gunakan baris biaya $[0,1,1]$, $[1,0,1]$, dan $[0,1,0]$ dengan pasokan dan permintaan masing-masing $(8,4,6)$. Minimum baris dan kolom semuanya nol. Tiga sel berikut diusulkan oleh garis yang memiliki skor tertinggi 2 dan FLC 0.
 
 | Sel calon | Fb | Fk | Min | Jumlah | Alokasi |
 |---|---:|---:|---:|---:|---:|
@@ -200,19 +226,36 @@ Pada $(3,1)$, baris 3 mempunyai satu nol dan kolom 1 mempunyai dua nol. Jadi nil
 | (2,2) | 1 | 1 | 1 | **2** | 4 |
 | (3,3) | 2 | 1 | 1 | 3 | 6 |
 
-VRB memilih $(2,2)$ karena jumlah hitungan minimumnya paling kecil. Alokasi yang lebih besar pada calon lain baru diperiksa jika jumlah ini masih seri. Jika skor suatu garis positif, SLC lebih besar dari FLC, sehingga garis pengusul hanya mempunyai satu sel minimum dan $K_{ij}^{\min}=1$. Pada seri skor positif, hitungan jumlah masih dapat membedakan calon, seperti pada tabel ini.
+VRB memilih $(2,2)$ karena jumlah hitungan minimumnya 2, sedangkan dua calon lain bernilai 3. Jika skor garis positif, SLC lebih besar dari FLC, sehingga garis pengusul hanya memiliki satu minimum dan $K_{\min}(i,j)=1$. Pada seri skor positif, kriteria jumlah masih dapat membedakan calon.
 
-### Alokasi dan biaya akhir
+### Langkah 7. Alokasikan unit ke sel terpilih
 
-VRB mengalokasikan $q_{ij}$ pada sel terpilih dan mengurangi sisa pasokan serta permintaan seperti pada VAM. Biaya setiap langkah dihitung dengan biaya asli, yaitu $q_{ij}c_{ij}$. Pada G3_N33:
+Untuk sel pemenang $(i^\star,j^\star)$, kirim $q=q_t(i^\star,j^\star)$ unit. Perbarui alokasi dan margin yang bersangkutan, lalu hitung biaya iterasi dengan $C(i^\star,j^\star)$.
 
 $$
-Z_{\mathrm{VRB}}
-=90\times3+30\times5+70\times6+50\times4+30\times7
-=1250.
+\begin{aligned}
+X^{(t+1)}(i^\star,j^\star)&=X^{(t)}(i^\star,j^\star)+q,\\
+s_{i^\star}^{(t+1)}&=s_{i^\star}^{(t)}-q,\\
+d_{j^\star}^{(t+1)}&=d_{j^\star}^{(t)}-q,\\
+Z_t&=q\,C(i^\star,j^\star).
+\end{aligned}
 $$
 
-Setelah semua garis selesai, program memeriksa bahwa alokasi nonnegatif, jumlah tiap baris dan kolom tepat, dan total biaya cocok dengan matriks alokasi. [Inti VRB](src/vrb/vrb.c) mengerjakan semua perhitungan. Parser membaca input dan modul pelacakan menampilkan langkah yang dikirim inti. Mengaktifkan jejak tidak mengubah keputusan. Untuk menghindari pengurutan ulang, inti mengurutkan sel aktif sekali per garis. Saat baris atau kolom habis, sel pada garis itu dikeluarkan dari daftar yang berpotongan. Inti membaca FLC, SLC, dan TLC dari awal daftar, MAX dari akhirnya, dan memperbarui jumlah minimum bila sel yang hilang mengubah hitungan.
+### Langkah 8. Tutup garis yang habis dan ulangi
+
+Tutup baris jika sisa pasokannya nol. Tutup kolom jika sisa permintaannya nol. Jika keduanya habis, tutup keduanya. Keluarkan sel pada garis tertutup dari daftar garis aktif yang berpotongan dan perbarui hitungan minimum. Selama masih ada pasokan positif, kembali ke Langkah 3 dengan biaya tereduksi dari Langkah 2 dan margin terbaru. Jika semua pasokan sudah dialokasikan, lanjut ke Langkah 9.
+
+### Langkah 9. Hitung dan verifikasi biaya transportasi
+
+Kalikan setiap alokasi akhir $X(i,j)$ dengan biaya asli rutenya dan jumlahkan seluruh hasilnya.
+
+$$
+Z=\sum_{i=1}^{m}\sum_{j=1}^{n} C(i,j)X(i,j).
+$$
+
+Periksa $X(i,j)\ge 0$, $\sum_{j=1}^{n}X(i,j)=s_i$ untuk setiap baris, dan $\sum_{i=1}^{m}X(i,j)=d_j$ untuk setiap kolom. Program mencocokkan $Z$ dengan total biaya yang dicatat selama iterasi.
+
+[Inti VRB](src/vrb/vrb.c) menjalankan langkah-langkah tersebut. Inti mengurutkan daftar sekali dan mengambil statistik dari daftar yang tersisa setelah garis ditutup. [Parser](src/helper/input.c) membaca masukan, sedangkan [modul jejak](src/helper/trace.c) menampilkan keputusan solver ketika opsi `--trace` aktif.
 
 ## Flowchart VRB
 
@@ -237,13 +280,66 @@ Pada iterasi pertama VRB, baris 3 dan kolom 2 sama-sama memiliki SKOR 8, FLC 0, 
 | 5 | (3, 3) | 30 | 210 | (1, 2) | 20 | 60 |
 | **Total** | | **270** | **1.250** | | **270** | **1.430** |
 
-Gambar berikut dibuat dari keluaran asli `--trace`. Tabel pada gambar menunjukkan calon tiap garis, alasan pemilihan, sisa pasokan dan permintaan, serta biaya kumulatif.
+### Persiapan contoh dan jejak lima iterasi
 
-![Keluaran persiapan dan iterasi 1](img/run-g3-n33-01.png)
+Jalankan `./build/vrb dataset/69/G3_N33.txt --trace` untuk mengikuti gambar di bawah. B dan K pada tabel terminal masing-masing berarti baris dan kolom.
 
-![Keluaran iterasi 2 dan 3](img/run-g3-n33-02.png)
+**Tabel awal.** G3_N33 mempunyai pasokan $(90,80,100)$ dan permintaan $(70,120,80)$. Keduanya berjumlah 270 unit. Minimum baris adalah $(3,4,6)$ dan minimum kolom setelah reduksi baris adalah $(0,0,0)$.
 
-![Keluaran iterasi 4 dan 5 serta hasil akhir](img/run-g3-n33-03.png)
+$$
+C=
+\begin{bmatrix}
+3&3&5\\6&5&4\\6&10&7
+\end{bmatrix}
+\qquad
+C'=
+\begin{bmatrix}
+0&0&2\\2&1&0\\0&4&1
+\end{bmatrix}.
+$$
+
+#### Iterasi 1. Pilih kolom 2 lewat alokasi terbesar
+
+Kolom 2 memiliki biaya aktif terurut $[0,1,4]$. Penalti $1-0=1$, bobot $4+(4-0)=8$, dan skor $1\times8=8$. Kolom 2 mengusulkan $(1,2)$. Baris 3 juga mendapat skor 8 dari biaya terurut $[0,1,4]$ dan mengusulkan $(3,1)$.
+
+| Pengusul | Sel | Skor | FLC | Fb | Fk | Min | Jumlah | Alokasi |
+|---|:---:|---:|---:|---:|---:|---:|---:|---:|
+| Baris 3 | (3,1) | 8 | 0 | 1 | 2 | 1 | 3 | 70 |
+| Kolom 2 | (1,2) | 8 | 0 | 2 | 1 | 1 | 3 | 90 |
+
+Skor, FLC, Min, dan Jumlah seri. Pilih $(1,2)$ karena $\min(90,120)=90$ lebih besar dari 70. Biayanya $90\,C(1,2)=90\times3=270$. Tutup baris 1. Sisa pasokan $(0,80,100)$ dan sisa permintaan $(70,30,80)$.
+
+![Jejak persiapan dan iterasi 1 VRB, kolom 2 mengalokasikan 90 unit ke sel (1,2)](img/g3-n33-iterasi-1.png)
+
+#### Iterasi 2. Pilih kolom 2 dengan skor 21
+
+Dengan baris 1 tertutup, kolom 2 memiliki biaya $[1,4]$. TLC sama dengan SLC, yaitu 4. Penalti $4-1=3$, bobot $4+(4-1)=7$, dan skor $3\times7=21$. Skor ini mengungguli 8 dari calon terbaik lainnya. Alokasikan $\min(80,30)=30$ ke $(2,2)$. Biayanya $30\,C(2,2)=30\times5=150$, sehingga biaya kumulatif menjadi 420. Tutup kolom 2. Sisa pasokan $(0,50,100)$ dan sisa permintaan $(70,0,80)$.
+
+![Jejak iterasi 2 VRB, skor 21 dan alokasi 30 unit di sel (2,2)](img/g3-n33-iterasi-2.png)
+
+#### Iterasi 3. Pilih kolom 1 lewat alokasi terbesar
+
+Kolom 1 dan baris 2 sama-sama memiliki biaya terurut $[0,2]$. Penalti 2 dan bobot 4 memberi skor 8. Kedua calon juga seri pada FLC 0, Min 1, dan Jumlah 2. Kolom 1 mengusulkan $(3,1)$ dengan $\min(100,70)=70$ unit, sedangkan baris 2 mengusulkan $(2,3)$ dengan 50 unit. Pilih $(3,1)$. Biayanya $70\,C(3,1)=70\times6=420$, sehingga biaya kumulatif menjadi 840. Tutup kolom 1. Sisa pasokan $(0,50,30)$ dan sisa permintaan $(0,0,80)$.
+
+![Jejak iterasi 3 VRB, alokasi 70 unit menang atas 50 unit setelah seri skor dan kelangkaan](img/g3-n33-iterasi-3.png)
+
+#### Iterasi 4. Pilih kolom 3 dengan skor 2
+
+Kolom 3 memiliki biaya terurut $[0,1]$. Penalti $1-0=1$, bobot $1+(1-0)=2$, dan skor 2. Setiap baris aktif hanya punya satu sel sehingga skornya nol. Alokasikan $\min(50,80)=50$ ke $(2,3)$. Biayanya $50\,C(2,3)=50\times4=200$, sehingga biaya kumulatif menjadi 1.040. Tutup baris 2. Sisa pasokan dan permintaan masing-masing $(0,0,30)$.
+
+![Jejak iterasi 4 VRB, 50 unit dikirim ke sel (2,3)](img/g3-n33-iterasi-4.png)
+
+#### Iterasi 5. Selesaikan sisa pasokan dan permintaan
+
+Hanya $(3,3)$ yang aktif. FLC, SLC, TLC, dan MAX semuanya 1, sehingga penalti 0, bobot 1, dan skor 0. Calon dari baris 3 dan kolom 3 menunjuk sel yang sama. Alokasikan $\min(30,30)=30$ unit. Biayanya $30\,C(3,3)=30\times7=210$. Tutup baris 3 dan kolom 3 karena kedua margin menjadi nol. Biaya akhir dari matriks asli adalah
+
+$$
+Z=90\times3+30\times5+70\times6+50\times4+30\times7=1250.
+$$
+
+![Jejak iterasi 5 VRB dan matriks alokasi akhir dengan biaya 1250](img/g3-n33-iterasi-5.png)
+
+Untuk contoh ini, konstanta reduksi adalah $3(90)+4(80)+6(100)=1190$. Biaya tereduksi alokasi VRB adalah $30(1)+30(1)=60$, sehingga biaya asli $1190+60=1250$. Alokasi VAM memiliki biaya tereduksi 240 dan biaya asli $1190+240=1430$. Selisih 180 sama pada kedua matriks.
 
 ## Pengujian dataset 69
 
