@@ -1,142 +1,355 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1895" width="1200" height="1895" role="img" aria-labelledby="title description">
-  <title id="title">Pemilihan calon dan aturan seri VRB</title>
-  <desc id="description">Bagian A memilih satu sel minimum untuk setiap garis aktif. Bagian B mempertahankan calon menurut skor terbesar, FLC terkecil, minimum hitungan FLC terkecil, jumlah hitungan terkecil, alokasi terbesar, lalu indeks baris dan kolom terkecil. Bila satu calon tersisa, gunakan selnya.</desc>
-  <style>
-    text {font-family: Arial, Helvetica, sans-serif; fill:#183046;}
-    .title {font-size:42px;font-weight:700;letter-spacing:-.6px;}
-    .eyebrow {font-size:17px;letter-spacing:2.4px;font-weight:700;fill:#8c3740;}
-    .subtitle {font-size:21px;fill:#40566a;}
-    .box-title {font-size:25px;font-weight:700;}
-    .smalltitle {font-size:23px;font-weight:700;}
-    .body {font-size:21px;}
-    .small {font-size:20px;}
-    .question {font-size:22px;font-weight:700;}
-    .branch {font-size:19px;font-weight:700;fill:#3e566b;}
-    .terminal-text {font-size:24px;font-weight:700;fill:#fff;}
-    .loop-text {font-size:22px;font-weight:700;fill:#81323b;}
-    .fail-text {font-size:21px;font-weight:700;fill:#81323b;}
-    .section {font-size:26px;font-weight:700;fill:#244866;}
-    .foot {font-size:20px;fill:#40566a;}
-    .box,.emphasis,.decision,.terminal,.loop,.fail,.note {stroke-width:2;}
-    .box {fill:#fff;stroke:#879aab;}
-    .emphasis {fill:#eef5fa;stroke:#63819c;}
-    .decision {fill:#f6f9fc;stroke:#587189;}
-    .terminal {fill:#244866;stroke:#244866;}
-    .loop,.fail {fill:#fff0ef;stroke:#a96a70;}
-    .error {fill:#fff5f3;stroke:#b67b80;stroke-width:2;}
-    .note {fill:#f5f8fa;stroke:#ccd7e0;}
-    .connector {fill:none;stroke:#6e8295;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
-    .separator {fill:none;stroke:#d9e2ea;stroke-width:2;}
-    .dot {fill:#6e8295;}
-  </style>
-  <rect width="1200" height="1895" fill="#fff"/>
-  <path class="separator" d="M62 160 H1138"/>
-  <path class="separator" d="M589 196 V1767"/>
-  <path class="connector" d="M302 302 V336 M302 493 V527 M302 623 V655 M302 751 V793 M302 889 V921 M302 1017 V1059 M302 1171 V1211 M302 1307 V1340"/>
-  <path class="connector" d="M516 703 H563 V1259 H538 M516 969 H563"/>
-  <path class="connector" d="M844 302 V336"/>
-  <path class="connector" d="M844 424 V445 M1008 479 H1134 M844 513 V561"/>
-  <path class="connector" d="M844 649 V670 M1008 704 H1134 M844 738 V786"/>
-  <path class="connector" d="M844 874 V895 M1008 929 H1134 M844 963 V1011"/>
-  <path class="connector" d="M844 1099 V1120 M1008 1154 H1134 M844 1188 V1236"/>
-  <path class="connector" d="M844 1324 V1345 M1008 1379 H1134 M844 1413 V1461"/>
-  <path class="connector" d="M1134 479 V1714 H1072 M844 1588 V1666"/>
-  <path class="separator" d="M62 1806 H1138"/>
-  <text class="eyebrow" x="62" y="48">DIAGRAM 2</text>
-  <text class="title" x="62" y="99">Pemilihan calon dan aturan seri</text>
-  <text class="subtitle" x="62" y="137">Pilih satu calon per garis di A. Di setiap tahap B, pertahankan calon dengan nilai terbaik.</text>
-  <text class="section" x="63" y="209">A. Di dalam satu garis</text>
-  <text class="section" x="616" y="209">B. Antargaris</text>
-  <rect class="terminal" x="112.0" y="246" width="380" height="56" rx="28.0"/>
-  <text class="terminal-text" x="302" y="282.0" text-anchor="middle">Periksa satu garis aktif</text>
-  <rect class="box" x="66" y="336" width="472" height="157" rx="11"/>
-  <text class="box-title" x="89" y="372">A1. Ambil statistik biaya</text>
-  <text class="body" x="89" y="403">Baca biaya aktif yang sudah terurut.</text>
-  <text class="body" x="89" y="429">Ambil FLC, SLC, TLC, dan MAX.</text>
-  <text class="body" x="89" y="455">Dua sel: TLC = SLC.</text>
-  <text class="body" x="89" y="481">Satu sel: FLC = SLC = TLC = MAX.</text>
-  <rect class="box" x="66" y="527" width="472" height="96" rx="11"/>
-  <text class="box-title" x="89" y="563">A2. Saring sel minimum</text>
-  <text class="body" x="89" y="594">Pertahankan sel dengan biaya FLC.</text>
-  <polygon class="decision" points="302,655.0 516.0,703 302,751.0 88.0,703"/>
-  <text class="question" x="302" y="696.5" text-anchor="middle">Lebih dari</text>
-  <text class="question" x="302" y="723.5" text-anchor="middle">satu sel minimum?</text>
-  <text class="branch" x="325" y="779">Ya</text>
-  <text class="branch" x="534" y="685" text-anchor="middle">Tidak</text>
-  <text class="branch" x="534" y="951" text-anchor="middle">Tidak</text>
-  <circle class="dot" cx="563" cy="969" r="4.5"/>
-  <rect class="box" x="66" y="793" width="472" height="96" rx="11"/>
-  <text class="box-title" x="89" y="829">A3. Pilih alokasi terbesar</text>
-  <text class="body" x="89" y="860">q = min(sisa pasokan, sisa permintaan).</text>
-  <polygon class="decision" points="302,921.0 516.0,969 302,1017.0 88.0,969"/>
-  <text class="question" x="302" y="962.5" text-anchor="middle">Alokasi terbesar</text>
-  <text class="question" x="302" y="989.5" text-anchor="middle">masih seri?</text>
-  <text class="branch" x="325" y="1045">Ya</text>
-  <rect class="box" x="66" y="1059" width="472" height="112" rx="11"/>
-  <text class="box-title" x="89" y="1095">A4. Gunakan indeks terkecil</text>
-  <text class="body" x="89" y="1126">Jika menilai baris, pilih kolom terkecil.</text>
-  <text class="body" x="89" y="1152">Jika menilai kolom, pilih baris terkecil.</text>
-  <rect class="emphasis" x="66" y="1211" width="472" height="96" rx="11"/>
-  <text class="box-title" x="89" y="1247">A5. Simpan calon garis</text>
-  <text class="body" x="89" y="1278">Ulangi bagian A pada garis aktif lainnya.</text>
-  <rect class="terminal" x="105.5" y="1340" width="393" height="56" rx="28.0"/>
-  <text class="terminal-text" x="302" y="1376.0" text-anchor="middle">Jika selesai, lanjut ke B</text>
-  <text class="small" x="66" y="1435">SKOR = (SLC − FLC) × (MAX + TLC − FLC)</text>
-  <rect class="note" x="66" y="1453" width="472" height="236" rx="11"/>
-  <text class="box-title" x="89" y="1489">Cara membaca hitungan FLC</text>
-  <text class="body" x="89" y="1520">Fb: banyak sel minimum di baris calon.</text>
-  <text class="body" x="89" y="1546">Fk: banyak sel minimum di kolom calon.</text>
-  <text class="body" x="89" y="1572">Masing-masing memakai minimum</text>
-  <text class="body" x="89" y="1598">pada garisnya sendiri. Biaya calon</text>
-  <text class="body" x="89" y="1624">tidak harus minimum pada keduanya.</text>
-  <rect class="terminal" x="644.0" y="246" width="400" height="56" rx="28.0"/>
-  <text class="terminal-text" x="844" y="282.0" text-anchor="middle">Ambil semua calon garis</text>
-  <rect class="box" x="616" y="336" width="456" height="88" rx="11"/>
-  <text class="smalltitle" x="639" y="372">B1. SKOR terbesar</text>
-  <text class="small" x="639" y="403">Bandingkan skor garis pengusul.</text>
-  <polygon class="decision" points="844,445.0 1008.0,479 844,513.0 680.0,479"/>
-  <text class="question" x="844" y="486.0" text-anchor="middle">Masih seri?</text>
-  <text class="branch" x="1058" y="465" text-anchor="middle">Tidak</text>
-  <text class="branch" x="866" y="541">Ya</text>
-  <rect class="box" x="616" y="561" width="456" height="88" rx="11"/>
-  <text class="smalltitle" x="639" y="597">B2. FLC terkecil</text>
-  <text class="small" x="639" y="628">Bandingkan biaya reduksi sel calon.</text>
-  <polygon class="decision" points="844,670.0 1008.0,704 844,738.0 680.0,704"/>
-  <text class="question" x="844" y="711.0" text-anchor="middle">Masih seri?</text>
-  <text class="branch" x="1058" y="690" text-anchor="middle">Tidak</text>
-  <text class="branch" x="866" y="766">Ya</text>
-  <circle class="dot" cx="1134" cy="704" r="4.5"/>
-  <rect class="emphasis" x="616" y="786" width="456" height="88" rx="11"/>
-  <text class="smalltitle" x="639" y="822">B3. Minimum hitungan terkecil</text>
-  <text class="small" x="639" y="853">Bandingkan min(Fb, Fk).</text>
-  <polygon class="decision" points="844,895.0 1008.0,929 844,963.0 680.0,929"/>
-  <text class="question" x="844" y="936.0" text-anchor="middle">Masih seri?</text>
-  <text class="branch" x="1058" y="915" text-anchor="middle">Tidak</text>
-  <text class="branch" x="866" y="991">Ya</text>
-  <circle class="dot" cx="1134" cy="929" r="4.5"/>
-  <rect class="emphasis" x="616" y="1011" width="456" height="88" rx="11"/>
-  <text class="smalltitle" x="639" y="1047">B4. Jumlah hitungan terkecil</text>
-  <text class="small" x="639" y="1078">Bandingkan Fb + Fk.</text>
-  <polygon class="decision" points="844,1120.0 1008.0,1154 844,1188.0 680.0,1154"/>
-  <text class="question" x="844" y="1161.0" text-anchor="middle">Masih seri?</text>
-  <text class="branch" x="1058" y="1140" text-anchor="middle">Tidak</text>
-  <text class="branch" x="866" y="1216">Ya</text>
-  <circle class="dot" cx="1134" cy="1154" r="4.5"/>
-  <rect class="box" x="616" y="1236" width="456" height="88" rx="11"/>
-  <text class="smalltitle" x="639" y="1272">B5. ALOKASI terbesar</text>
-  <text class="small" x="639" y="1303">Bandingkan q yang dapat dikirim.</text>
-  <polygon class="decision" points="844,1345.0 1008.0,1379 844,1413.0 680.0,1379"/>
-  <text class="question" x="844" y="1386.0" text-anchor="middle">Masih seri?</text>
-  <text class="branch" x="1058" y="1365" text-anchor="middle">Tidak</text>
-  <text class="branch" x="866" y="1441">Ya</text>
-  <circle class="dot" cx="1134" cy="1379" r="4.5"/>
-  <rect class="box" x="616" y="1461" width="456" height="127" rx="11"/>
-  <text class="smalltitle" x="639" y="1497">B6. Indeks sel terkecil</text>
-  <text class="small" x="639" y="1528">Pilih indeks baris terkecil.</text>
-  <text class="small" x="639" y="1554">Jika baris sama, pilih kolom terkecil.</text>
-  <rect class="emphasis" x="616" y="1666" width="456" height="96" rx="11"/>
-  <text class="smalltitle" x="639" y="1702">Gunakan sel yang tersisa</text>
-  <text class="small" x="639" y="1733">Lanjutkan ke alokasi pada diagram 1.</text>
-  <text class="foot" x="62" y="1840">Jika dua garis mengusulkan sel yang sama, label garis tidak mengubah alokasi.</text>
-  <text class="foot" x="62" y="1872">Pada seri penuh untuk sel yang sama, kode memilih label baris lebih dahulu, lalu indeks garis.</text>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 16.1.1 (0)
+ -->
+<!-- Title: TieBreak Pages: 1 -->
+<svg width="1088pt" height="2089pt"
+ viewBox="0.00 0.00 1088.00 2089.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(25.2 2063.57)">
+<title>TieBreak</title>
+<polygon fill="white" stroke="none" points="-25.2,25.2 -25.2,-2063.57 1063.2,-2063.57 1063.2,25.2 -25.2,25.2"/>
+<text xml:space="preserve" text-anchor="middle" x="519" y="-2010.62" font-family="DejaVu Sans" font-size="25.00" fill="#19354b">DIAGRAM 2 · PEMILIHAN CALON DAN ATURAN SERI</text>
+<text xml:space="preserve" text-anchor="middle" x="519" y="-1976.12" font-family="DejaVu Sans" font-size="25.00" fill="#19354b">Gunakan hanya sel pada baris dan kolom aktif</text>
+<g id="clust1" class="cluster">
+<title>cluster_A</title>
+<polygon fill="white" stroke="#d1dce6" points="8,-568.2 8,-1953.37 485,-1953.37 485,-568.2 8,-568.2"/>
+<text xml:space="preserve" text-anchor="middle" x="246.5" y="-1929.42" font-family="DejaVu Sans" font-size="21.00" fill="#19354b">A. Satu calon per baris / kolom</text>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_B</title>
+<polygon fill="white" stroke="#d1dce6" points="493,-8 493,-1953.37 1030,-1953.37 1030,-8 493,-8"/>
+<text xml:space="preserve" text-anchor="middle" x="761.5" y="-1929.42" font-family="DejaVu Sans" font-size="21.00" fill="#19354b">B. Bandingkan calon antargaris</text>
+</g>
+<!-- a0 -->
+<g id="node1" class="node">
+<title>a0</title>
+<ellipse fill="#224968" stroke="#224968" stroke-width="1.6" cx="268" cy="-1858.86" rx="148.7" ry="33.26"/>
+<text xml:space="preserve" text-anchor="middle" x="268" y="-1854.71" font-family="DejaVu Sans" font-size="17.00" fill="white">Periksa satu garis aktif</text>
+</g>
+<!-- a1 -->
+<g id="node2" class="node">
+<title>a1</title>
+<path fill="white" stroke="#879db1" stroke-width="1.6" d="M431.65,-1794.6C431.65,-1794.6 104.35,-1794.6 104.35,-1794.6 98.35,-1794.6 92.35,-1788.6 92.35,-1782.6 92.35,-1782.6 92.35,-1735.56 92.35,-1735.56 92.35,-1729.56 98.35,-1723.56 104.35,-1723.56 104.35,-1723.56 431.65,-1723.56 431.65,-1723.56 437.65,-1723.56 443.65,-1729.56 443.65,-1735.56 443.65,-1735.56 443.65,-1782.6 443.65,-1782.6 443.65,-1788.6 437.65,-1794.6 431.65,-1794.6"/>
+<text xml:space="preserve" text-anchor="middle" x="268" y="-1766.93" font-family="DejaVu Sans" font-size="17.00" fill="#19354b">Ambil sel dengan biaya minimum (FLC)</text>
+<text xml:space="preserve" text-anchor="middle" x="268" y="-1742.93" font-family="DejaVu Sans" font-size="17.00" fill="#19354b">Pertahankan semua sel dengan nilai itu.</text>
+</g>
+<!-- a0&#45;&gt;a1 -->
+<g id="edge1" class="edge">
+<title>a0&#45;&gt;a1</title>
+<path fill="none" stroke="#647f97" stroke-width="1.7" d="M268,-1825.03C268,-1818.77 268,-1812.11 268,-1805.53"/>
+<polygon fill="#647f97" stroke="#647f97" stroke-width="1.7" points="270.8,-1805.91 268,-1797.91 265.2,-1805.91 270.8,-1805.91"/>
+</g>
+<!-- a2 -->
+<g id="node3" class="node">
+<title>a2</title>
+<polygon fill="#f5f8fb" stroke="#879db1" stroke-width="1.6" points="268,-1692.56 119.95,-1621.52 268,-1550.48 416.05,-1621.52 268,-1692.56"/>
+<text xml:space="preserve" text-anchor="middle" x="268" y="-1629.37" font-family="DejaVu Sans" font-size="17.00" fill="#19354b">Lebih dari satu</text>
+<text xml:space="preserve" text-anchor="middle" x="268" y="-1605.37" font-family="DejaVu Sans" font-size="17.00" fill="#19354b">sel minimum?</text>
+</g>
+<!-- a1&#45;&gt;a2 -->
+<g id="edge2" class="edge">
+<title>a1&#45;&gt;a2</title>
+<path fill="none" stroke="#647f97" stroke-width="1.7" d="M268,-1722.82C268,-1716.85 268,-1710.43 268,-1703.84"/>
+<polygon fill="#647f97" stroke="#647f97" stroke-width="1.7" points="270.8,-1703.95 268,-1695.95 265.2,-1703.95 270.8,-1703.95"/>
+</g>
+<!-- a3 -->
+<g id="node4" class="node">
+<title>a3</title>
+<path fill="white" stroke="#879db1" stroke-width="1.6" d="M380.65,-1499.48C380.65,-1499.48 59.35,-1499.48 59.35,-1499.48 53.35,-1499.48 47.35,-1493.48 47.35,-1487.48 47.35,-1487.48 47.35,-1440.44 47.35,-1440.44 47.35,-1434.44 53.35,-1428.44 59.35,-1428.44 59.35,-1428.44 380.65,-1428.44 380.65,-1428.44 386.65,-1428.44 392.65,-1434.44 392.65,-1440.44 392.65,-1440.44 392.65,-1487.48 392.65,-1487.48 392.65,-1493.48 386.65,-1499.48 380.65,-1499.48"/>
+<text xml:space="preserve" text-anchor="middle" x="220" y="-1471.81" font-family="DejaVu Sans" font-size="17.00" fill="#19354b">Pilih kapasitas ALOKASI terbesar</text>
+<text xml:space="preserve" text-anchor="middle" x="220" y="-1447.81" font-family="DejaVu Sans" font-size="17.00" fill="#19354b">q = min(sisa pasokan, sisa permintaan).</text>
+</g>
+<!-- a2&#45;&gt;a3 -->
+<g id="edge3" class="edge">
+<title>a2&#45;&gt;a3</title>
+<path fill="none" stroke="#647f97" stroke-width="1.7" d="M249.03,-1559.04C243.96,-1542.6 238.57,-1525.14 233.83,-1509.78"/>
+<polygon fill="#647f97" stroke="#647f97" stroke-width="1.7" points="236.61,-1509.31 231.58,-1502.49 231.26,-1510.96 236.61,-1509.31"/>
+<text xml:space="preserve" text-anchor="middle" x="249" y="-1521.23" font-family="DejaVu Sans" font-size="15.00" fill="#3e5a72">Ya</text>
+</g>
+<!-- a6 -->
+<g id="node7" class="node">
+<title>a6</title>
+<path fill="#eef5fa" stroke="#879db1" stroke-width="1.6" d="M441.27,-1126.32C441.27,-1126.32 150.73,-1126.32 150.73,-1126.32 144.73,-1126.32 138.72,-1120.32 138.72,-1114.32 138.72,-1114.32 138.72,-1043.28 138.72,-1043.28 138.72,-1037.28 144.72,-1031.28 150.72,-1031.28 150.72,-1031.28 441.27,-1031.28 441.27,-1031.28 447.27,-1031.28 453.27,-1037.28 453.27,-1043.28 453.27,-1043.28 453.27,-1114.32 453.27,-1114.32 453.27,-1120.32 447.27,-1126.32 441.27,-1126.32"/>
+<text xml:space="preserve" text-anchor="middle" x="296" y="-1098.65" font-family="DejaVu Sans" font-size="17.00" fill="#19354b">Simpan satu calon garis</text>
+<text xml:space="preserve" text-anchor="middle" x="296" y="-1074.65" font-family="DejaVu Sans" font-size="17.00" fill="#19354b">Bawa SKOR garis dan koordinat sel.</text>
+<text xml:space="preserve" text-anchor="middle" x="296" y="-1050.65" font-family="DejaVu Sans" font-size="17.00" fill="#19354b">Ulangi untuk setiap garis aktif.</text>
+</g>
+<!-- a2&#45;&gt;a6 -->
+<g id="edge4" class="edge">
+<title>a2&#45;&gt;a6</title>
+<path fill="none" stroke="#647f97" stroke-width="1.7" d="M320.15,-1575.1C359.6,-1540.76 407,-1499.48 407,-1499.48 407,-1499.48 407,-1428.44 407,-1428.44 407,-1428.44 394,-1157.32 394,-1157.32 394,-1157.32 380.52,-1146.65 363.55,-1133.24"/>
+<polygon fill="#647f97" stroke="#647f97" stroke-width="1.7" points="365.58,-1131.27 357.57,-1128.5 362.1,-1135.66 365.58,-1131.27"/>
+<text xml:space="preserve" text-anchor="middle" x="424.25" y="-1346.65" font-family="DejaVu Sans" font-size="15.00" fill="#3e5a72">Tidak</text>
+</g>
+<!-- a4 -->
+<g id="node5" class="node">
+<title>a4</title>
+<polygon fill="#f5f8fb" stroke="#879db1" stroke-width="1.6" points="220,-1397.44 101.2,-1350.4 220,-1303.36 338.8,-1350.4 220,-1397.44"/>
+<text xml:space="preserve" text-anchor="middle" x="220" y="-1346.25" font-family="DejaVu Sans" font-size="17.00" fill="#19354b">Masih seri?</text>
+</g>
+<!-- a3&#45;&gt;a4 -->
+<g id="edge5" class="edge">
+<title>a3&#45;&gt;a4</title>
+<path fill="none" stroke="#647f97" stroke-width="1.7" d="M220,-1427.66C220,-1421.46 220,-1414.87 220,-1408.26"/>
+<polygon fill="#647f97" stroke="#647f97" stroke-width="1.7" points="222.8,-1408.48 220,-1400.48 217.2,-1408.48 222.8,-1408.48"/>
+</g>
+<!-- a5 -->
+<g id="node6" class="node">
+<title>a5</title>
+<path fill="white" stroke="#879db1" stroke-width="1.6" d="M322.27,-1252.36C322.27,-1252.36 43.73,-1252.36 43.73,-1252.36 37.73,-1252.36 31.72,-1246.36 31.72,-1240.36 31.72,-1240.36 31.72,-1169.32 31.72,-1169.32 31.72,-1163.32 37.72,-1157.32 43.72,-1157.32 43.72,-1157.32 322.27,-1157.32 322.27,-1157.32 328.27,-1157.32 334.27,-1163.32 334.27,-1169.32 334.27,-1169.32 334.27,-1240.36 334.27,-1240.36 334.27,-1246.36 328.27,-1252.36 322.27,-1252.36"/>
+<text xml:space="preserve" text-anchor="middle" x="183" y="-1224.69" font-family="DejaVu Sans" font-size="17.00" fill="#19354b">Pilih indeks sel terkecil</text>
+<text xml:space="preserve" text-anchor="middle" x="183" y="-1200.69" font-family="DejaVu Sans" font-size="17.00" fill="#19354b">Calon baris: indeks kolom terkecil.</text>
+<text xml:space="preserve" text-anchor="middle" x="183" y="-1176.69" font-family="DejaVu Sans" font-size="17.00" fill="#19354b">Calon kolom: indeks baris terkecil.</text>
+</g>
+<!-- a4&#45;&gt;a5 -->
+<g id="edge6" class="edge">
+<title>a4&#45;&gt;a5</title>
+<path fill="none" stroke="#647f97" stroke-width="1.7" d="M209.1,-1307.1C205.55,-1293.33 201.55,-1277.8 197.76,-1263.11"/>
+<polygon fill="#647f97" stroke="#647f97" stroke-width="1.7" points="200.53,-1262.65 195.83,-1255.61 195.11,-1264.05 200.53,-1262.65"/>
+<text xml:space="preserve" text-anchor="middle" x="211.59" y="-1274.11" font-family="DejaVu Sans" font-size="15.00" fill="#3e5a72">Ya</text>
+</g>
+<!-- a4&#45;&gt;a6 -->
+<g id="edge7" class="edge">
+<title>a4&#45;&gt;a6</title>
+<path fill="none" stroke="#647f97" stroke-width="1.7" d="M260.82,-1318.7C298.61,-1290.27 349,-1252.36 349,-1252.36 349,-1252.36 349,-1157.32 349,-1157.32 349,-1157.32 342.42,-1147.69 333.89,-1135.22"/>
+<polygon fill="#647f97" stroke="#647f97" stroke-width="1.7" points="336.33,-1133.83 329.51,-1128.81 331.71,-1136.99 336.33,-1133.83"/>
+<text xml:space="preserve" text-anchor="middle" x="367.75" y="-1201.09" font-family="DejaVu Sans" font-size="15.00" fill="#3e5a72">Tidak</text>
+</g>
+<!-- a5&#45;&gt;a6 -->
+<g id="edge8" class="edge">
+<title>a5&#45;&gt;a6</title>
+<path fill="none" stroke="#647f97" stroke-width="1.7" d="M226.04,-1156.59C232.69,-1149.3 239.59,-1141.72 246.36,-1134.29"/>
+<polygon fill="#647f97" stroke="#647f97" stroke-width="1.7" points="248.03,-1136.62 251.34,-1128.82 243.89,-1132.85 248.03,-1136.62"/>
+</g>
+<!-- a7 -->
+<g id="node8" class="node">
+<title>a7</title>
+<ellipse fill="#224968" stroke="#224968" stroke-width="1.6" cx="275" cy="-944.76" rx="185.83" ry="33.26"/>
+<text xml:space="preserve" text-anchor="middle" x="275" y="-940.61" font-family="DejaVu Sans" font-size="17.00" fill="white">Semua calon siap: lanjut ke B</text>
+</g>
+<!-- a6&#45;&gt;a7 -->
+<g id="edge9" class="edge">
+<title>a6&#45;&gt;a7</title>
+<path fill="none" stroke="#647f97" stroke-width="1.7" d="M288.48,-1030.5C286.32,-1016.96 283.99,-1002.26 281.87,-988.98"/>
+<polygon fill="#647f97" stroke="#647f97" stroke-width="1.7" points="284.66,-988.67 280.64,-981.21 279.13,-989.55 284.66,-988.67"/>
+</g>
+<!-- count -->
+<g id="node9" class="node">
+<title>count</title>
+<polygon fill="#eef5fa" stroke="#879db1" stroke-width="1.6" points="447.65,-878.24 96.35,-878.24 96.35,-592.2 453.65,-592.2 453.65,-872.24 447.65,-878.24"/>
+<polyline fill="none" stroke="#879db1" stroke-width="1.6" points="447.65,-878.24 447.65,-872.24"/>
+<polyline fill="none" stroke="#879db1" stroke-width="1.6" points="453.65,-872.24 447.65,-872.24"/>
+<text xml:space="preserve" text-anchor="middle" x="275" y="-851.52" font-family="DejaVu Sans" font-size="16.00" fill="#19354b">DEFINISI HITUNGAN SESUAI PPT</text>
+<text xml:space="preserve" text-anchor="middle" x="275" y="-829.02" font-family="DejaVu Sans" font-size="16.00" fill="#19354b">Untuk sel calon (i,j), tetapkan f = R(i,j).</text>
+<text xml:space="preserve" text-anchor="middle" x="275" y="-787.52" font-family="DejaVu Sans" font-size="16.00" fill="#19354b">FLC_ROW_COUNT: jumlah sel aktif bernilai f</text>
+<text xml:space="preserve" text-anchor="middle" x="275" y="-765.02" font-family="DejaVu Sans" font-size="16.00" fill="#19354b">pada baris i.</text>
+<text xml:space="preserve" text-anchor="middle" x="275" y="-742.52" font-family="DejaVu Sans" font-size="16.00" fill="#19354b">FLC_COL_COUNT: jumlah sel aktif bernilai f</text>
+<text xml:space="preserve" text-anchor="middle" x="275" y="-720.02" font-family="DejaVu Sans" font-size="16.00" fill="#19354b">pada kolom j.</text>
+<text xml:space="preserve" text-anchor="middle" x="275" y="-678.52" font-family="DejaVu Sans" font-size="16.00" fill="#19354b">Keduanya memakai nilai f yang sama,</text>
+<text xml:space="preserve" text-anchor="middle" x="275" y="-656.02" font-family="DejaVu Sans" font-size="16.00" fill="#19354b">termasuk bila f bukan minimum pada</text>
+<text xml:space="preserve" text-anchor="middle" x="275" y="-633.52" font-family="DejaVu Sans" font-size="16.00" fill="#19354b">garis yang berpotongan.</text>
+<text xml:space="preserve" text-anchor="middle" x="275" y="-611.02" font-family="DejaVu Sans" font-size="16.00" fill="#19354b">Sel calon ikut dihitung pada kedua garis.</text>
+</g>
+<!-- a7&#45;&gt;count -->
+<!-- b0 -->
+<g id="node10" class="node">
+<title>b0</title>
+<ellipse fill="#224968" stroke="#224968" stroke-width="1.6" cx="841" cy="-1858.86" rx="159.31" ry="33.26"/>
+<text xml:space="preserve" text-anchor="middle" x="841" y="-1854.71" font-family="DejaVu Sans" font-size="17.00" fill="white">Ambil semua calon garis</text>
+</g>
+<!-- b1 -->
+<g id="node11" class="node">
+<title>b1</title>
+<path fill="white" stroke="#879db1" stroke-width="1.6" d="M979.9,-1794.6C979.9,-1794.6 702.1,-1794.6 702.1,-1794.6 696.1,-1794.6 690.1,-1788.6 690.1,-1782.6 690.1,-1782.6 690.1,-1735.56 690.1,-1735.56 690.1,-1729.56 696.1,-1723.56 702.1,-1723.56 702.1,-1723.56 979.9,-1723.56 979.9,-1723.56 985.9,-1723.56 991.9,-1729.56 991.9,-1735.56 991.9,-1735.56 991.9,-1782.6 991.9,-1782.6 991.9,-1788.6 985.9,-1794.6 979.9,-1794.6"/>
+<text xml:space="preserve" text-anchor="middle" x="841" y="-1766.93" font-family="DejaVu Sans" font-size="17.00" fill="#19354b">5.1. SKOR terbesar</text>
+<text xml:space="preserve" text-anchor="middle" x="841" y="-1742.93" font-family="DejaVu Sans" font-size="17.00" fill="#19354b">Bandingkan SKOR garis pengusul.</text>
+</g>
+<!-- b0&#45;&gt;b1 -->
+<g id="edge11" class="edge">
+<title>b0&#45;&gt;b1</title>
+<path fill="none" stroke="#647f97" stroke-width="1.7" d="M841,-1825.03C841,-1818.77 841,-1812.11 841,-1805.53"/>
+<polygon fill="#647f97" stroke="#647f97" stroke-width="1.7" points="843.8,-1805.91 841,-1797.91 838.2,-1805.91 843.8,-1805.91"/>
+</g>
+<!-- d1 -->
+<g id="node12" class="node">
+<title>d1</title>
+<polygon fill="#f5f8fb" stroke="#879db1" stroke-width="1.6" points="841,-1668.56 722.2,-1621.52 841,-1574.48 959.8,-1621.52 841,-1668.56"/>
+<text xml:space="preserve" text-anchor="middle" x="841" y="-1617.37" font-family="DejaVu Sans" font-size="17.00" fill="#19354b">Masih seri?</text>
+</g>
+<!-- b1&#45;&gt;d1 -->
+<g id="edge12" class="edge">
+<title>b1&#45;&gt;d1</title>
+<path fill="none" stroke="#647f97" stroke-width="1.7" d="M841,-1722.82C841,-1709.69 841,-1694.42 841,-1679.82"/>
+<polygon fill="#647f97" stroke="#647f97" stroke-width="1.7" points="843.8,-1679.92 841,-1671.92 838.2,-1679.92 843.8,-1679.92"/>
+</g>
+<!-- b2 -->
+<g id="node13" class="node">
+<title>b2</title>
+<path fill="white" stroke="#879db1" stroke-width="1.6" d="M923.77,-1487.48C923.77,-1487.48 720.23,-1487.48 720.23,-1487.48 714.23,-1487.48 708.23,-1481.48 708.23,-1475.48 708.23,-1475.48 708.23,-1452.44 708.23,-1452.44 708.23,-1446.44 714.23,-1440.44 720.23,-1440.44 720.23,-1440.44 923.77,-1440.44 923.77,-1440.44 929.77,-1440.44 935.77,-1446.44 935.77,-1452.44 935.77,-1452.44 935.77,-1475.48 935.77,-1475.48 935.77,-1481.48 929.77,-1487.48 923.77,-1487.48"/>
+<text xml:space="preserve" text-anchor="middle" x="822" y="-1459.81" font-family="DejaVu Sans" font-size="17.00" fill="#19354b">6.1. FLC sel calon terkecil</text>
+</g>
+<!-- d1&#45;&gt;b2 -->
+<g id="edge13" class="edge">
+<title>d1&#45;&gt;b2</title>
+<path fill="none" stroke="#647f97" stroke-width="1.7" d="M835.56,-1575.94C832.54,-1551.25 828.85,-1521.07 826.09,-1498.41"/>
+<polygon fill="#647f97" stroke="#647f97" stroke-width="1.7" points="828.87,-1498.11 825.12,-1490.51 823.31,-1498.79 828.87,-1498.11"/>
+<text xml:space="preserve" text-anchor="middle" x="838.24" y="-1521.23" font-family="DejaVu Sans" font-size="15.00" fill="#3e5a72">Ya</text>
+</g>
+<!-- win -->
+<g id="node22" class="node">
+<title>win</title>
+<path fill="#eef5fa" stroke="#879db1" stroke-width="1.6" d="M993.9,-151.04C993.9,-151.04 692.1,-151.04 692.1,-151.04 686.1,-151.04 680.1,-145.04 680.1,-139.04 680.1,-139.04 680.1,-44 680.1,-44 680.1,-38 686.1,-32 692.1,-32 692.1,-32 993.9,-32 993.9,-32 999.9,-32 1005.9,-38 1005.9,-44 1005.9,-44 1005.9,-139.04 1005.9,-139.04 1005.9,-145.04 999.9,-151.04 993.9,-151.04"/>
+<text xml:space="preserve" text-anchor="middle" x="843" y="-123.37" font-family="DejaVu Sans" font-size="17.00" fill="#19354b">Gunakan sel pemenang</text>
+<text xml:space="preserve" text-anchor="middle" x="843" y="-99.37" font-family="DejaVu Sans" font-size="17.00" fill="#19354b">Lanjut ke Langkah 7 pada diagram 1.</text>
+<text xml:space="preserve" text-anchor="middle" x="843" y="-75.37" font-family="DejaVu Sans" font-size="17.00" fill="#19354b">Dua pengusul pada sel yang sama</text>
+<text xml:space="preserve" text-anchor="middle" x="843" y="-51.37" font-family="DejaVu Sans" font-size="17.00" fill="#19354b">menghasilkan alokasi yang sama.</text>
+</g>
+<!-- d1&#45;&gt;win -->
+<g id="edge14" class="edge">
+<title>d1&#45;&gt;win</title>
+<path fill="none" stroke="#647f97" stroke-width="1.7" d="M871.94,-1586.16C904.17,-1550.37 950,-1499.48 950,-1499.48 950,-1499.48 968,-1464.96 968,-1464.96 968,-1464.96 968,-1464.96 968,-1004.78 968,-1004.78 1000,-878.24 1000,-878.24 1000,-878.24 1005,-550.7 1005,-550.7 1005,-550.7 1005,-550.7 1005,-228.56 1005,-228.56 982,-182.04 982,-182.04 982,-182.04 965.47,-171.39 943.81,-157.45"/>
+<polygon fill="#647f97" stroke="#647f97" stroke-width="1.7" points="945.35,-155.1 937.1,-153.13 942.31,-159.81 945.35,-155.1"/>
+<text xml:space="preserve" text-anchor="middle" x="1010.45" y="-941.01" font-family="DejaVu Sans" font-size="15.00" fill="#3e5a72">Tidak</text>
+</g>
+<!-- d2 -->
+<g id="node14" class="node">
+<title>d2</title>
+<polygon fill="#f5f8fb" stroke="#879db1" stroke-width="1.6" points="819,-1397.44 700.2,-1350.4 819,-1303.36 937.8,-1350.4 819,-1397.44"/>
+<text xml:space="preserve" text-anchor="middle" x="819" y="-1346.25" font-family="DejaVu Sans" font-size="17.00" fill="#19354b">Masih seri?</text>
+</g>
+<!-- b2&#45;&gt;d2 -->
+<g id="edge15" class="edge">
+<title>b2&#45;&gt;d2</title>
+<path fill="none" stroke="#647f97" stroke-width="1.7" d="M821.38,-1439.84C821.13,-1430.46 820.82,-1419.18 820.52,-1407.86"/>
+<polygon fill="#647f97" stroke="#647f97" stroke-width="1.7" points="823.32,-1407.99 820.31,-1400.07 817.73,-1408.14 823.32,-1407.99"/>
+</g>
+<!-- b3 -->
+<g id="node15" class="node">
+<title>b3</title>
+<path fill="#eef5fa" stroke="#879db1" stroke-width="1.6" d="M866.77,-1240.36C866.77,-1240.36 537.23,-1240.36 537.23,-1240.36 531.23,-1240.36 525.23,-1234.36 525.23,-1228.36 525.23,-1228.36 525.23,-1181.32 525.23,-1181.32 525.23,-1175.32 531.23,-1169.32 537.23,-1169.32 537.23,-1169.32 866.77,-1169.32 866.77,-1169.32 872.77,-1169.32 878.77,-1175.32 878.77,-1181.32 878.77,-1181.32 878.77,-1228.36 878.77,-1228.36 878.77,-1234.36 872.77,-1240.36 866.77,-1240.36"/>
+<text xml:space="preserve" text-anchor="middle" x="702" y="-1212.69" font-family="DejaVu Sans" font-size="17.00" fill="#19354b">6.2. MIN_FLC_COUNT terkecil</text>
+<text xml:space="preserve" text-anchor="middle" x="702" y="-1188.69" font-family="DejaVu Sans" font-size="17.00" fill="#19354b">min(FLC_ROW_COUNT, FLC_COL_COUNT)</text>
+</g>
+<!-- d2&#45;&gt;b3 -->
+<g id="edge16" class="edge">
+<title>d2&#45;&gt;b3</title>
+<path fill="none" stroke="#647f97" stroke-width="1.7" d="M790.38,-1314.28C774.37,-1294.64 754.29,-1270 737.31,-1249.17"/>
+<polygon fill="#647f97" stroke="#647f97" stroke-width="1.7" points="739.58,-1247.52 732.36,-1243.09 735.24,-1251.06 739.58,-1247.52"/>
+<text xml:space="preserve" text-anchor="middle" x="775.38" y="-1274.11" font-family="DejaVu Sans" font-size="15.00" fill="#3e5a72">Ya</text>
+</g>
+<!-- d2&#45;&gt;win -->
+<g id="edge17" class="edge">
+<title>d2&#45;&gt;win</title>
+<path fill="none" stroke="#647f97" stroke-width="1.7" d="M846.34,-1313.54C867.42,-1285.9 893,-1252.36 893,-1252.36 893,-1252.36 909,-1205.84 909,-1205.84 909,-1205.84 909,-1205.84 909,-1004.78 909,-1004.78 974,-438.16 974,-438.16 974,-438.16 974,-438.16 974,-228.56 974,-228.56 940.34,-193.6 907.14,-159.13"/>
+<polygon fill="#647f97" stroke="#647f97" stroke-width="1.7" points="909.43,-157.47 901.86,-153.65 905.39,-161.35 909.43,-157.47"/>
+<text xml:space="preserve" text-anchor="middle" x="977.75" y="-731.47" font-family="DejaVu Sans" font-size="15.00" fill="#3e5a72">Tidak</text>
+</g>
+<!-- d3 -->
+<g id="node16" class="node">
+<title>d3</title>
+<polygon fill="#f5f8fb" stroke="#879db1" stroke-width="1.6" points="702,-1125.84 583.2,-1078.8 702,-1031.76 820.8,-1078.8 702,-1125.84"/>
+<text xml:space="preserve" text-anchor="middle" x="702" y="-1074.65" font-family="DejaVu Sans" font-size="17.00" fill="#19354b">Masih seri?</text>
+</g>
+<!-- b3&#45;&gt;d3 -->
+<g id="edge18" class="edge">
+<title>b3&#45;&gt;d3</title>
+<path fill="none" stroke="#647f97" stroke-width="1.7" d="M702,-1168.63C702,-1158.75 702,-1147.75 702,-1136.94"/>
+<polygon fill="#647f97" stroke="#647f97" stroke-width="1.7" points="704.8,-1137.26 702,-1129.26 699.2,-1137.26 704.8,-1137.26"/>
+</g>
+<!-- b4 -->
+<g id="node17" class="node">
+<title>b4</title>
+<path fill="#eef5fa" stroke="#879db1" stroke-width="1.6" d="M835.77,-980.28C835.77,-980.28 536.23,-980.28 536.23,-980.28 530.23,-980.28 524.23,-974.28 524.23,-968.28 524.23,-968.28 524.23,-921.24 524.23,-921.24 524.23,-915.24 530.23,-909.24 536.23,-909.24 536.23,-909.24 835.77,-909.24 835.77,-909.24 841.77,-909.24 847.77,-915.24 847.77,-921.24 847.77,-921.24 847.77,-968.28 847.77,-968.28 847.77,-974.28 841.77,-980.28 835.77,-980.28"/>
+<text xml:space="preserve" text-anchor="middle" x="686" y="-952.61" font-family="DejaVu Sans" font-size="17.00" fill="#19354b">6.3. TOTAL_FLC_COUNT terkecil</text>
+<text xml:space="preserve" text-anchor="middle" x="686" y="-928.61" font-family="DejaVu Sans" font-size="17.00" fill="#19354b">FLC_ROW_COUNT + FLC_COL_COUNT</text>
+</g>
+<!-- d3&#45;&gt;b4 -->
+<g id="edge19" class="edge">
+<title>d3&#45;&gt;b4</title>
+<path fill="none" stroke="#647f97" stroke-width="1.7" d="M696.58,-1033.1C694.94,-1019.5 693.13,-1004.56 691.47,-990.94"/>
+<polygon fill="#647f97" stroke="#647f97" stroke-width="1.7" points="694.3,-990.98 690.56,-983.37 688.74,-991.65 694.3,-990.98"/>
+<text xml:space="preserve" text-anchor="middle" x="702.35" y="-1002.03" font-family="DejaVu Sans" font-size="15.00" fill="#3e5a72">Ya</text>
+</g>
+<!-- d3&#45;&gt;win -->
+<g id="edge20" class="edge">
+<title>d3&#45;&gt;win</title>
+<path fill="none" stroke="#647f97" stroke-width="1.7" d="M748.28,-1049.59C795.53,-1020.79 862,-980.28 862,-980.28 862,-980.28 892,-422.16 892,-422.16 892,-422.16 892,-328.08 892,-328.08 892,-328.08 871.85,-231.2 857.39,-161.7"/>
+<polygon fill="#647f97" stroke="#647f97" stroke-width="1.7" points="860.2,-161.44 855.83,-154.18 854.71,-162.58 860.2,-161.44"/>
+<text xml:space="preserve" text-anchor="middle" x="909.06" y="-484.93" font-family="DejaVu Sans" font-size="15.00" fill="#3e5a72">Tidak</text>
+</g>
+<!-- d4 -->
+<g id="node18" class="node">
+<title>d4</title>
+<polygon fill="#f5f8fb" stroke="#879db1" stroke-width="1.6" points="686,-782.26 567.2,-735.22 686,-688.18 804.8,-735.22 686,-782.26"/>
+<text xml:space="preserve" text-anchor="middle" x="686" y="-731.07" font-family="DejaVu Sans" font-size="17.00" fill="#19354b">Masih seri?</text>
+</g>
+<!-- b4&#45;&gt;d4 -->
+<g id="edge21" class="edge">
+<title>b4&#45;&gt;d4</title>
+<path fill="none" stroke="#647f97" stroke-width="1.7" d="M686,-908.55C686,-876.95 686,-829.98 686,-793.05"/>
+<polygon fill="#647f97" stroke="#647f97" stroke-width="1.7" points="688.8,-793.5 686,-785.5 683.2,-793.5 688.8,-793.5"/>
+</g>
+<!-- b5 -->
+<g id="node19" class="node">
+<title>b5</title>
+<path fill="white" stroke="#879db1" stroke-width="1.6" d="M805.15,-524.2C805.15,-524.2 528.85,-524.2 528.85,-524.2 522.85,-524.2 516.85,-518.2 516.85,-512.2 516.85,-512.2 516.85,-465.16 516.85,-465.16 516.85,-459.16 522.85,-453.16 528.85,-453.16 528.85,-453.16 805.15,-453.16 805.15,-453.16 811.15,-453.16 817.15,-459.16 817.15,-465.16 817.15,-465.16 817.15,-512.2 817.15,-512.2 817.15,-518.2 811.15,-524.2 805.15,-524.2"/>
+<text xml:space="preserve" text-anchor="middle" x="667" y="-496.53" font-family="DejaVu Sans" font-size="17.00" fill="#19354b">6.4. ALOKASI terbesar</text>
+<text xml:space="preserve" text-anchor="middle" x="667" y="-472.53" font-family="DejaVu Sans" font-size="17.00" fill="#19354b">Bandingkan q yang dapat dikirim.</text>
+</g>
+<!-- d4&#45;&gt;b5 -->
+<g id="edge22" class="edge">
+<title>d4&#45;&gt;b5</title>
+<path fill="none" stroke="#647f97" stroke-width="1.7" d="M682.47,-688.8C679.07,-645.03 673.95,-579.17 670.55,-535.33"/>
+<polygon fill="#647f97" stroke="#647f97" stroke-width="1.7" points="673.35,-535.28 669.94,-527.52 667.77,-535.71 673.35,-535.28"/>
+<text xml:space="preserve" text-anchor="middle" x="679.97" y="-545.95" font-family="DejaVu Sans" font-size="15.00" fill="#3e5a72">Ya</text>
+</g>
+<!-- d4&#45;&gt;win -->
+<g id="edge23" class="edge">
+<title>d4&#45;&gt;win</title>
+<path fill="none" stroke="#647f97" stroke-width="1.7" d="M711.43,-697.64C753.26,-637.47 832,-524.2 832,-524.2 832,-524.2 851,-277.08 851,-277.08 851,-277.08 851,-182.04 851,-182.04 851,-182.04 850.25,-173.7 849.22,-162.12"/>
+<polygon fill="#647f97" stroke="#647f97" stroke-width="1.7" points="852.02,-162.01 848.52,-154.3 846.44,-162.51 852.02,-162.01"/>
+<text xml:space="preserve" text-anchor="middle" x="865.79" y="-371.37" font-family="DejaVu Sans" font-size="15.00" fill="#3e5a72">Tidak</text>
+</g>
+<!-- d5 -->
+<g id="node20" class="node">
+<title>d5</title>
+<polygon fill="#f5f8fb" stroke="#879db1" stroke-width="1.6" points="667,-422.16 548.2,-375.12 667,-328.08 785.8,-375.12 667,-422.16"/>
+<text xml:space="preserve" text-anchor="middle" x="667" y="-370.97" font-family="DejaVu Sans" font-size="17.00" fill="#19354b">Masih seri?</text>
+</g>
+<!-- b5&#45;&gt;d5 -->
+<g id="edge24" class="edge">
+<title>b5&#45;&gt;d5</title>
+<path fill="none" stroke="#647f97" stroke-width="1.7" d="M667,-452.38C667,-446.18 667,-439.59 667,-432.98"/>
+<polygon fill="#647f97" stroke="#647f97" stroke-width="1.7" points="669.8,-433.2 667,-425.2 664.2,-433.2 669.8,-433.2"/>
+</g>
+<!-- b6 -->
+<g id="node21" class="node">
+<title>b6</title>
+<path fill="white" stroke="#879db1" stroke-width="1.6" d="M742.65,-277.08C742.65,-277.08 529.35,-277.08 529.35,-277.08 523.35,-277.08 517.35,-271.08 517.35,-265.08 517.35,-265.08 517.35,-194.04 517.35,-194.04 517.35,-188.04 523.35,-182.04 529.35,-182.04 529.35,-182.04 742.65,-182.04 742.65,-182.04 748.65,-182.04 754.65,-188.04 754.65,-194.04 754.65,-194.04 754.65,-265.08 754.65,-265.08 754.65,-271.08 748.65,-277.08 742.65,-277.08"/>
+<text xml:space="preserve" text-anchor="middle" x="636" y="-249.41" font-family="DejaVu Sans" font-size="17.00" fill="#19354b">6.5. Indeks sel terkecil</text>
+<text xml:space="preserve" text-anchor="middle" x="636" y="-225.41" font-family="DejaVu Sans" font-size="17.00" fill="#19354b">Pilih indeks baris terkecil,</text>
+<text xml:space="preserve" text-anchor="middle" x="636" y="-201.41" font-family="DejaVu Sans" font-size="17.00" fill="#19354b">lalu indeks kolom terkecil.</text>
+</g>
+<!-- d5&#45;&gt;b6 -->
+<g id="edge25" class="edge">
+<title>d5&#45;&gt;b6</title>
+<path fill="none" stroke="#647f97" stroke-width="1.7" d="M657.7,-331.05C654.79,-317.56 651.52,-302.44 648.43,-288.12"/>
+<polygon fill="#647f97" stroke="#647f97" stroke-width="1.7" points="651.18,-287.61 646.76,-280.38 645.71,-288.79 651.18,-287.61"/>
+<text xml:space="preserve" text-anchor="middle" x="661.23" y="-298.83" font-family="DejaVu Sans" font-size="15.00" fill="#3e5a72">Ya</text>
+</g>
+<!-- d5&#45;&gt;win -->
+<g id="edge26" class="edge">
+<title>d5&#45;&gt;win</title>
+<path fill="none" stroke="#647f97" stroke-width="1.7" d="M701.53,-341.27C731.12,-313.11 769,-277.08 769,-277.08 769,-277.08 794.38,-213.78 815.41,-161.33"/>
+<polygon fill="#647f97" stroke="#647f97" stroke-width="1.7" points="817.94,-162.53 818.32,-154.07 812.75,-160.45 817.94,-162.53"/>
+<text xml:space="preserve" text-anchor="middle" x="824.75" y="-225.81" font-family="DejaVu Sans" font-size="15.00" fill="#3e5a72">Tidak</text>
+</g>
+<!-- b6&#45;&gt;win -->
+<g id="edge27" class="edge">
+<title>b6&#45;&gt;win</title>
+<path fill="none" stroke="#647f97" stroke-width="1.7" d="M707.82,-181.36C719.68,-173.57 732.15,-165.37 744.53,-157.24"/>
+<polygon fill="#647f97" stroke="#647f97" stroke-width="1.7" points="745.78,-159.77 750.92,-153.03 742.7,-155.09 745.78,-159.77"/>
+</g>
+</g>
 </svg>
