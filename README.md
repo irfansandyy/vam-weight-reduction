@@ -97,172 +97,243 @@ Kolom 1 memiliki penalti terbesar, yaitu $6-3=3$. VAM memilih $(1,1)$ dan mengal
 
 ## Langkah informal VRB
 
-1. **Siapkan tabel transportasi.** Isi biaya asli $C(i,j)$, pasokan tiap baris, dan permintaan tiap kolom. Jika pasokan lebih besar, tambah kolom dummy. Jika permintaan lebih besar, tambah baris dummy. Isi margin dummy sebesar selisih kedua total dan beri biaya nol pada sel dummy.
-2. **Reduksi biaya sekali di awal.**
-   - Kurangi biaya setiap sel aktif dengan biaya terkecil pada barisnya.
-   - Dari hasil tersebut, kurangi lagi dengan biaya terkecil pada kolomnya. Hasilnya adalah biaya tereduksi $C'(i,j)$.
-3. **Hitung skor setiap baris dan kolom yang masih aktif.**
-   - Baca biaya tereduksi dari yang terkecil. Ambil biaya pertama (**FLC**), kedua (**SLC**), ketiga (**TLC**), dan terbesar (**MAX**). Biaya yang sama tetap dihitung pada posisi terpisah.
-   - Jika ada dua sel aktif, samakan TLC dengan SLC. Jika tinggal satu sel, samakan keempat nilai dengan biaya sel tersebut.
-   - Hitung **PENALTI** = SLC − FLC, **BOBOT** = MAX + (TLC − FLC), dan **SKOR** = PENALTI × BOBOT.
-4. **Ambil satu calon dari tiap baris dan kolom aktif.** Pilih sel berbiaya FLC pada baris atau kolom tersebut. Jika ada beberapa, pilih yang bisa menerima unit terbanyak. Jumlah itu adalah nilai terkecil antara sisa pasokan dan sisa permintaan. Jika masih seri, pilih indeks kolom terkecil untuk calon dari baris atau indeks baris terkecil untuk calon dari kolom.
-5. **Pilih calon dengan skor terbesar.** Jika skor seri, bandingkan kriteria di bawah satu per satu. **Fb** dan **Fk** adalah jumlah sel aktif yang mencapai biaya minimum pada baris dan kolom sel calon, masing-masing berdasarkan minimum garisnya sendiri.
-   1. FLC pada garis pengusul paling kecil.
-   2. Nilai **Min** paling kecil, yaitu nilai terkecil antara Fb dan Fk.
-   3. Nilai **Jumlah** paling kecil, yaitu Fb + Fk.
-   4. Jumlah unit yang dapat dialokasikan paling besar.
-   5. Indeks baris sel paling kecil, kemudian indeks kolom sel paling kecil.
-   6. Jika keduanya mengusulkan sel yang sama dan semua kriteria seri, pilih label pengusul baris.
-6. **Alokasikan unit dan perbarui tabel.** Kurangi sisa pasokan dan permintaan sesuai jumlah yang dikirim. Tutup setiap baris atau kolom yang sisanya nol. Jika masih ada pasokan, ulangi dari langkah 3 dengan biaya tereduksi dan sel yang masih aktif. Jika seluruh margin sudah nol, lanjut ke langkah 7.
-7. **Hitung biaya akhir.** Kalikan alokasi pada setiap sel dengan biaya asli $C(i,j)$, lalu jumlahkan. Periksa bahwa total alokasi tiap baris dan kolom memenuhi pasokan dan permintaannya.
+Alur berikut mengikuti metode pada presentasi kelompok. Reduksi dilakukan **satu kali di awal**, sedangkan statistik biaya dan skor dihitung ulang pada setiap iterasi berdasarkan sel yang masih aktif.
+
+> **Catatan implementasi:** definisi hitungan FLC di bawah mengikuti presentasi, yaitu menghitung kemunculan **nilai biaya sel calon yang sama** pada baris dan kolomnya. Kode `src/vrb/vrb.c` saat revisi dokumentasi ini masih menghitung minimum masing-masing garis dan memproses sel terakhir melalui iterasi biasa. Jejak program dan hasil benchmark yang sudah ada tetap merujuk pada implementasi tersebut.
+
+1. **Susun matriks transportasi seimbang.** Siapkan biaya asli, pasokan, dan permintaan. Contoh pada presentasi memakai matriks **3 × 4**, dengan tiga sumber pasokan dan empat tujuan permintaan. Total pasokan harus sama dengan total permintaan.
+2. **Lakukan reduksi baris.** Kurangi setiap biaya pada suatu baris dengan biaya minimum baris tersebut.
+3. **Lakukan reduksi kolom.** Dari hasil reduksi baris, kurangi setiap nilai pada suatu kolom dengan nilai minimum kolom tersebut. Simpan biaya asli untuk menghitung biaya total.
+4. **Hitung statistik dan skor setiap garis aktif.**
+   - **4.1.** Tentukan FLC, SLC, TLC, dan MAX dari biaya tereduksi pada setiap baris dan kolom aktif.
+   - **4.2.** Hitung `PENALTI = SLC - FLC`, `BOBOT = TLC + MAX - FLC`, dan `SKOR = PENALTI × BOBOT`.
+5. **Pilih baris atau kolom dengan skor terbesar.**
+   - **5.1.** Ambil garis dengan skor terbesar. Setiap garis mengajukan satu sel calon: biaya tereduksi terkecil, lalu kapasitas alokasi terbesar, lalu indeks sel terkecil.
+   - **5.2.** Jika lebih dari satu garis memiliki skor terbesar, lanjut ke Langkah 6. Jika hanya satu, langsung ke Langkah 7.
+6. **Selesaikan seri dengan aturan tie-breaker.** Bandingkan FLC terkecil, MIN_FLC_COUNT terkecil, TOTAL_FLC_COUNT terkecil, kapasitas ALOKASI terbesar, lalu indeks baris dan kolom terkecil. Begitu tersisa satu sel pemenang, lanjut ke Langkah 7.
+7. **Alokasikan unit ke sel terpilih.** Kirim sebanyak `min(sisa pasokan, sisa permintaan)`. Perbarui kedua sisa tersebut dan nonaktifkan setiap garis yang sisanya nol.
+8. **Periksa baris dan kolom aktif.** Jika tersisa tepat satu baris dan satu kolom aktif, lanjut ke Langkah 9. Jika masih ada margin positif dan kondisinya belum terpenuhi, ulangi Langkah **4–7**, tanpa mengulangi reduksi. Jika seluruh margin sudah nol, langsung ke Langkah 10.
+9. **Alokasikan seluruh sisa unit.** Isi sel pertemuan satu baris dan satu kolom terakhir, lalu perbarui sisanya menjadi nol.
+10. **Hitung biaya total.** Jumlahkan hasil perkalian alokasi akhir dengan **biaya asli**, lalu periksa kesesuaian seluruh pasokan dan permintaan.
+
+Ukuran 3 × 4 digunakan untuk contoh presentasi; aturan yang sama dapat diterapkan pada matriks berukuran $m\times n$. Untuk masukan tidak seimbang, tambahkan baris atau kolom dummy berbiaya nol sebelum Langkah 2, seperti dijelaskan pada bagian model transportasi.
 
 ## Langkah formal VRB
 
-VRB mereduksi biaya sekali, memberi bobot pada penalti, dan memakai jumlah pilihan minimum untuk membandingkan calon yang seri. Notasi $C(i,j)$ menyatakan biaya asli per unit dari sumber $i$ ke tujuan $j$, sedangkan $C'(i,j)$ menyatakan biaya setelah reduksi.
+Gunakan $C(i,j)$ untuk biaya asli, $R(i,j)$ untuk biaya setelah reduksi, dan $X(i,j)$ untuk alokasi. Sisa pasokan dan permintaan sebelum iterasi $t$ adalah $s_i^{(t)}$ dan $d_j^{(t)}$. Baris atau kolom disebut **aktif** jika sisanya masih positif; sel aktif berada pada perpotongan baris dan kolom aktif.
 
-### Langkah 1. Susun dan seimbangkan tabel transportasi
+### Langkah 1. Susun matriks transportasi seimbang
 
-Susun matriks $C$ berukuran $m\times n$, vektor pasokan $s_i$, dan vektor permintaan $d_j$. Hitung total pasokan $S=\sum_i s_i$ dan total permintaan $D=\sum_j d_j$.
-
-- Jika $S>D$, tambahkan kolom dummy dengan permintaan $S-D$.
-- Jika $D>S$, tambahkan baris dummy dengan pasokan $D-S$.
-- Jika $S=D$, gunakan tabel yang sudah seimbang.
-
-Tetapkan $C(i,j)=0$ untuk seluruh sel dummy. Gunakan ukuran tabel setelah penyeimbangan untuk $m$ dan $n$ pada langkah berikutnya. Mulai dengan $X^{(1)}(i,j)=0$ untuk setiap sel, $s_i^{(1)}=s_i$, dan $d_j^{(1)}=d_j$. Jika total pasokan setelah penyeimbangan nol, langsung ke Langkah 9.
-
-### Langkah 2. Reduksi biaya satu kali
-
-Baris aktif adalah baris dengan sisa pasokan positif. Kolom aktif adalah kolom dengan sisa permintaan positif. Pada awal proses, himpunan keduanya adalah $`I_1=\{i:s_i>0\}`$ dan $`J_1=\{j:d_j>0\}`$. Hitung minimum baris $r_i$, lalu minimum kolom $k_j$ dari biaya yang sudah dikurangi minimum baris.
+Siapkan matriks biaya, vektor pasokan, dan vektor permintaan yang memenuhi:
 
 ```math
-\begin{aligned}
-r_i &= \min_{j\in J_1} C(i,j), && i\in I_1,\\
-k_j &= \min_{i\in I_1} \bigl(C(i,j)-r_i\bigr), && j\in J_1,\\
-C'(i,j) &= C(i,j)-r_i-k_j, && (i,j)\in I_1\times J_1.
-\end{aligned}
+\sum_{i=1}^{m}s_i=\sum_{j=1}^{n}d_j.
 ```
 
-Untuk setiap alokasi layak $X$, pengurang biaya total selalu sama karena jumlah alokasi pada setiap baris dan kolom sudah ditentukan oleh marginnya. Gunakan $r_i=0$ atau $k_j=0$ pada garis yang tidak aktif sejak awal. Sel yang tidak ikut reduksi menyimpan biaya aslinya.
+Mulai dengan $X(i,j)=0$, $s_i^{(1)}=s_i$, dan $d_j^{(1)}=d_j$. Abaikan garis dengan margin nol. Jika seluruh margin nol sejak awal, langsung ke Langkah 10.
 
-```math
-\begin{aligned}
-&\sum_{i=1}^{m}\sum_{j=1}^{n} C(i,j)X(i,j) - \sum_{i=1}^{m}\sum_{j=1}^{n} C'(i,j)X(i,j)\\
-&\quad= \sum_{i=1}^{m}r_i s_i+\sum_{j=1}^{n}k_j d_j.
-\end{aligned}
-```
+Contoh seimbang **3 × 4** pada presentasi:
 
-Pengurangan konstanta tersebut mempertahankan urutan biaya antar solusi layak. Biaya relatif antar sel tetap dapat berubah, sehingga reduksi memengaruhi pilihan calon VRB. [Diagne dan Gningue](https://www.m-hikari.com/ams/ams-2011/ams-45-48-2011/sanghareAMS45-48-2011.pdf) juga memakai reduksi dalam varian VAM mereka dan menerapkannya kembali setelah setiap alokasi.
-
-### Langkah 3. Tentukan FLC, SLC, TLC, dan MAX
-
-Pada awal iterasi $t$, ambil $`I_t=\{i:s_i^{(t)}>0\}`$ dan $`J_t=\{j:d_j^{(t)}>0\}`$. Satu garis $\ell$ adalah satu baris dari $I_t$ atau satu kolom dari $J_t$. Untuk tiap garis, baca biaya $C'(i,j)$ dari sel yang masih aktif dalam urutan $v_{\ell,1}\le \cdots\le v_{\ell,h}$, dengan $h$ jumlah sel aktif pada garis tersebut. Jika biaya sama, urutkan menurut indeks pasangan terkecil, yaitu indeks kolom pada daftar baris atau indeks baris pada daftar kolom.
-
-```math
-\begin{aligned}
-\mathrm{FLC}_\ell &= v_{\ell,1},&
-\mathrm{SLC}_\ell &= v_{\ell,\min(2,h)},\\
-\mathrm{TLC}_\ell &= v_{\ell,\min(3,h)},&
-\mathrm{MAX}_\ell &= v_{\ell,h}.
-\end{aligned}
-```
-
-FLC, SLC, dan TLC masing-masing adalah *First*, *Second*, dan *Third Least Cost*. Biaya yang sama tetap mengisi posisi terpisah. Sebagai contoh, biaya $[0,0,2]$ memberi FLC dan SLC sama-sama 0. Jika ada dua sel, TLC sama dengan SLC. Jika hanya ada satu sel, keempat nilai sama.
-
-### Langkah 4. Hitung penalti, bobot, dan skor
-
-Untuk setiap garis aktif $\ell$, gunakan statistik dari Langkah 3.
-
-```math
-\begin{aligned}
-\mathrm{PENALTI}_\ell &= \mathrm{SLC}_\ell-\mathrm{FLC}_\ell,\\
-\mathrm{BOBOT}_\ell &= \mathrm{MAX}_\ell+\bigl(\mathrm{TLC}_\ell-\mathrm{FLC}_\ell\bigr),\\
-\mathrm{SKOR}_\ell &= \mathrm{PENALTI}_\ell\,\mathrm{BOBOT}_\ell.
-\end{aligned}
-```
-
-Penalti mengukur selisih dari pilihan termurah ke posisi kedua. Bobot menambah pengaruh biaya terbesar dan jarak ke posisi ketiga. Pada garis dengan satu sel aktif, penalti dan skor bernilai nol.
-
-### Langkah 5. Bentuk satu calon dari setiap garis aktif
-
-Untuk setiap garis $\ell$, pertimbangkan sel aktif $(i,j)$ yang memenuhi $C'(i,j)=\mathrm{FLC}_\ell$. Hitung jumlah yang dapat dikirim ke tiap sel tersebut.
-
-```math
-q_t(i,j)=\min\bigl(s_i^{(t)},d_j^{(t)}\bigr).
-```
-
-Pilih sel dengan $q_t(i,j)$ terbesar. Jika nilainya sama, ambil indeks pasangan terkecil sesuai urutan pada Langkah 3. Calon membawa skor dan FLC dari garis pengusul. Satu sel dapat diusulkan oleh baris dan kolom dengan skor yang berbeda.
-
-### Langkah 6. Pilih calon dan pecahkan seri antar garis
-
-Untuk tiap sel calon $(i,j)$, hitung berapa sel aktif yang memiliki biaya minimum pada baris $i$ dan kolom $j$. Masing-masing hitungan memakai minimum garisnya sendiri.
-
-```math
-\begin{aligned}
-N_i^{\mathrm{baris}} &= \left\lvert\left\{k\in J_t:C'(i,k)=\min_{j'\in J_t}C'(i,j')\right\}\right\rvert,\\
-N_j^{\mathrm{kolom}} &= \left\lvert\left\{k\in I_t:C'(k,j)=\min_{i'\in I_t}C'(i',j)\right\}\right\rvert,\\
-K_{\min}(i,j)&=\min\bigl(N_i^{\mathrm{baris}},N_j^{\mathrm{kolom}}\bigr),\\
-K_{\mathrm{jumlah}}(i,j)&=N_i^{\mathrm{baris}}+N_j^{\mathrm{kolom}}.
-\end{aligned}
-```
-
-Pada jejak teks, dua hitungan pertama tampil sebagai **Fb** dan **Fk**, lalu dua hasilnya tampil sebagai **Min** dan **Jumlah**. Misalnya, pada iterasi 2 G3_N33, kolom 2 mengusulkan $(2,2)$ dengan biaya tereduksi 1. Fb tetap menghitung sel $(2,3)$ karena minimum baris 2 adalah 0 pada sel itu.
-
-Bandingkan calon dengan urutan berikut. Lanjutkan ke kriteria berikutnya selama nilainya masih seri.
-
-1. SKOR garis pengusul terbesar.
-2. FLC garis pengusul terkecil.
-3. $K_{\min}(i,j)$ terkecil.
-4. $K_{\mathrm{jumlah}}(i,j)$ terkecil.
-5. $q_t(i,j)$ terbesar.
-6. Indeks baris $i$ terkecil, lalu indeks kolom $j$ terkecil.
-7. Jika dua calon mengusulkan sel yang sama dan seluruh kriteria sebelumnya seri, dahulukan label pengusul baris. Kedua calon memberi alokasi yang sama.
-
-Hitungan minimum memberi prioritas pada calon dengan pilihan termurah yang lebih sedikit. Sebagai ilustrasi, gunakan baris biaya $[0,1,1]$, $[1,0,1]$, dan $[0,1,0]$ dengan pasokan dan permintaan masing-masing $(8,4,6)$. Minimum baris dan kolom semuanya nol. Tiga sel berikut diusulkan oleh garis yang memiliki skor tertinggi 2 dan FLC 0.
-
-| Sel calon | Fb | Fk | Min | Jumlah | Alokasi |
+| Sumber / Tujuan | D1 | D2 | D3 | D4 | Pasokan |
 |---|---:|---:|---:|---:|---:|
-| (1,1) | 1 | 2 | 1 | 3 | 8 |
-| (2,2) | 1 | 1 | 1 | **2** | 4 |
-| (3,3) | 2 | 1 | 1 | 3 | 6 |
+| S1 | 5 | 8 | 6 | 4 | 20 |
+| S2 | 5 | 4 | 4 | 2 | 30 |
+| S3 | 1 | 1 | 7 | 9 | 25 |
+| **Permintaan** | **30** | **15** | **20** | **10** | **75** |
 
-VRB memilih $(2,2)$ karena jumlah hitungan minimumnya 2, sedangkan dua calon lain bernilai 3. Jika skor garis positif, SLC lebih besar dari FLC, sehingga garis pengusul hanya memiliki satu minimum dan $K_{\min}(i,j)=1$. Pada seri skor positif, kriteria jumlah masih dapat membedakan calon.
+Total pasokan $20+30+25=75$ sama dengan total permintaan $30+15+20+10=75$.
 
-### Langkah 7. Alokasikan unit ke sel terpilih
+### Langkah 2. Reduksi baris
 
-Untuk sel pemenang $(i^\star,j^\star)$, kirim $q=q_t(i^\star,j^\star)$ unit. Perbarui alokasi dan margin yang bersangkutan, lalu hitung biaya iterasi dengan $C(i^\star,j^\star)$.
+Gunakan himpunan baris dan kolom aktif awal $I_1$ dan $J_1$. Cari minimum setiap baris aktif, lalu kurangkan dari seluruh biaya aktif pada baris tersebut.
+
+```math
+r_i=\min_{j\in J_1}C(i,j),\qquad
+B(i,j)=C(i,j)-r_i.
+```
+
+Pada contoh, minimum baris adalah $(4,2,1)$, sehingga:
+
+```math
+B=\begin{bmatrix}
+1&4&2&0\\
+3&2&2&0\\
+0&0&6&8
+\end{bmatrix}.
+```
+
+### Langkah 3. Reduksi kolom
+
+Cari minimum setiap kolom aktif dari **hasil reduksi baris**, lalu kurangkan dari seluruh nilai aktif pada kolom tersebut.
+
+```math
+k_j=\min_{i\in I_1}B(i,j),\qquad
+R(i,j)=B(i,j)-k_j.
+```
+
+Pada contoh, minimum kolom adalah $(0,0,2,0)$, sehingga:
+
+```math
+R=\begin{bmatrix}
+1&4&0&0\\
+3&2&0&0\\
+0&0&4&8
+\end{bmatrix}.
+```
+
+**Nilai $R(i,j)$ ini tetap digunakan pada seluruh iterasi. Reduksi baris dan kolom tidak diulang setelah alokasi.**
+
+### Langkah 4. Hitung statistik biaya dan skor
+
+**4.1. Tentukan FLC, SLC, TLC, dan MAX.** Pada iterasi $t$, gunakan:
+
+```math
+I_t=\{i:s_i^{(t)}>0\},\qquad
+J_t=\{j:d_j^{(t)}>0\}.
+```
+
+Untuk setiap garis aktif $\ell$, urutkan biaya tereduksi sel aktif menjadi $v_{\ell,1}\le\cdots\le v_{\ell,h}$.
 
 ```math
 \begin{aligned}
-X^{(t+1)}(i^\star,j^\star)&=X^{(t)}(i^\star,j^\star)+q,\\
-s_{i^\star}^{(t+1)}&=s_{i^\star}^{(t)}-q,\\
-d_{j^\star}^{(t+1)}&=d_{j^\star}^{(t)}-q,\\
-Z_t&=q\,C(i^\star,j^\star).
+\mathrm{FLC}_\ell&=v_{\ell,1},&
+\mathrm{SLC}_\ell&=v_{\ell,\min(2,h)},\\
+\mathrm{TLC}_\ell&=v_{\ell,\min(3,h)},&
+\mathrm{MAX}_\ell&=v_{\ell,h}.
 \end{aligned}
 ```
 
-### Langkah 8. Tutup garis yang habis dan ulangi
+Biaya yang sama tetap dihitung pada posisi berbeda. Jika hanya ada dua sel aktif, TLC = SLC. Jika hanya ada satu sel aktif, FLC = SLC = TLC = MAX.
 
-Tutup baris jika sisa pasokannya nol. Tutup kolom jika sisa permintaannya nol. Jika keduanya habis, tutup keduanya. Keluarkan sel pada garis tertutup dari daftar garis aktif yang berpotongan dan perbarui hitungan minimum. Selama masih ada pasokan positif, kembali ke Langkah 3 dengan biaya tereduksi dari Langkah 2 dan margin terbaru. Jika semua pasokan sudah dialokasikan, lanjut ke Langkah 9.
-
-### Langkah 9. Hitung dan verifikasi biaya transportasi
-
-Kalikan setiap alokasi akhir $X(i,j)$ dengan biaya asli rutenya dan jumlahkan seluruh hasilnya.
+**4.2. Hitung penalti, bobot, dan skor.**
 
 ```math
-Z=\sum_{i=1}^{m}\sum_{j=1}^{n} C(i,j)X(i,j).
+\begin{aligned}
+\mathrm{PENALTI}_\ell&=\mathrm{SLC}_\ell-\mathrm{FLC}_\ell,\\
+\mathrm{BOBOT}_\ell&=\mathrm{TLC}_\ell+\mathrm{MAX}_\ell-\mathrm{FLC}_\ell,\\
+\mathrm{SKOR}_\ell&=\mathrm{PENALTI}_\ell\times\mathrm{BOBOT}_\ell.
+\end{aligned}
 ```
 
-Periksa $X(i,j)\ge 0$, $\sum_{j=1}^{n}X(i,j)=s_i$ untuk setiap baris, dan $\sum_{i=1}^{m}X(i,j)=d_j$ untuk setiap kolom. Program mencocokkan $Z$ dengan total biaya yang dicatat selama iterasi.
+Pada iterasi pertama contoh, skor S1, S2, S3, D1, D2, D3, D4 berturut-turut adalah **0, 0, 0, 6, 16, 0, 0**.
 
-[Inti VRB](src/vrb/vrb.c) menjalankan langkah-langkah tersebut. Inti mengurutkan daftar sekali dan mengambil statistik dari daftar yang tersisa setelah garis ditutup. [Parser](src/helper/input.c) membaca masukan, sedangkan [modul jejak](src/helper/trace.c) menampilkan keputusan solver ketika opsi `--trace` aktif.
+### Langkah 5. Pilih garis dengan skor terbesar
+
+**5.1.** Setiap baris dan kolom aktif mengajukan satu sel calon. Di dalam satu garis:
+
+1. Pertahankan sel dengan biaya tereduksi minimum, yaitu FLC garis itu.
+2. Jika ada beberapa sel minimum, pilih kapasitas alokasi terbesar:
+
+   ```math
+   q_t(i,j)=\min\bigl(s_i^{(t)},d_j^{(t)}\bigr).
+   ```
+
+3. Jika masih seri, pilih indeks sel terkecil. Untuk calon dari baris, pilih indeks kolom terkecil; untuk calon dari kolom, pilih indeks baris terkecil.
+
+Calon membawa SKOR dari garis pengusul. Satu sel dapat diusulkan oleh baris dan kolom dengan skor berbeda.
+
+**5.2.** Pertahankan calon dari garis dengan SKOR terbesar. Jika hanya ada satu calon, langsung ke Langkah 7. Jika ada beberapa, lanjut ke Langkah 6.
+
+### Langkah 6. Terapkan aturan tie-breaker
+
+Untuk sel calon $(i,j)$, tetapkan $f=R(i,j)$, yaitu nilai FLC calon tersebut. Hitung kemunculan **nilai $f$ yang sama** pada baris $i$ dan kolom $j$, hanya pada sel aktif:
+
+```math
+\begin{aligned}
+\mathrm{FLC\_ROW\_COUNT}_t(i,j)
+&=\left|\{k\in J_t:R(i,k)=f\}\right|,\\
+\mathrm{FLC\_COL\_COUNT}_t(i,j)
+&=\left|\{k\in I_t:R(k,j)=f\}\right|,\\
+\mathrm{MIN\_FLC\_COUNT}_t(i,j)
+&=\min\bigl(\mathrm{FLC\_ROW\_COUNT}_t(i,j),\mathrm{FLC\_COL\_COUNT}_t(i,j)\bigr),\\
+\mathrm{TOTAL\_FLC\_COUNT}_t(i,j)
+&=\mathrm{FLC\_ROW\_COUNT}_t(i,j)+\mathrm{FLC\_COL\_COUNT}_t(i,j).
+\end{aligned}
+```
+
+Kedua hitungan memakai **nilai biaya sel calon**, termasuk ketika nilai tersebut bukan minimum pada garis yang berpotongan. Sel calon ikut dihitung pada baris dan kolomnya. Nama singkat Fb dan Fk dapat digunakan untuk FLC_ROW_COUNT dan FLC_COL_COUNT dalam penjelasan metode ini.
+
+Contoh pembeda: jika calon bernilai 1 dan biaya aktif barisnya $[0,1,1]$, FLC_ROW_COUNT calon itu adalah **2**, karena ada dua sel bernilai 1.
+
+Terapkan prioritas berikut secara berurutan. Pada setiap tahap, pertahankan semua calon dengan nilai terbaik; lanjut hanya jika masih seri.
+
+| Tahap | Kriteria | Pilih |
+|---|---|---|
+| Langkah 5.1 | SKOR garis pengusul | Terbesar |
+| 6.1 | FLC sel calon | Terkecil |
+| 6.2 | MIN_FLC_COUNT | Terkecil |
+| 6.3 | TOTAL_FLC_COUNT | Terkecil |
+| 6.4 | ALOKASI, yaitu $q_t(i,j)$ | Terbesar |
+| 6.5 | Indeks baris, kemudian indeks kolom sel | Terkecil |
+
+Begitu satu sel pemenang ditemukan, lanjut ke Langkah 7. Jika dua pengusul menunjuk sel yang sama, keduanya menghasilkan alokasi yang sama; tidak diperlukan aturan tambahan untuk membedakan label pengusul.
+
+### Langkah 7. Alokasikan unit dan perbarui sisa
+
+Untuk sel pemenang $(i,j)$, gunakan $q=\min(s_i^{(t)},d_j^{(t)})$, kemudian:
+
+```math
+\begin{aligned}
+X(i,j)&\leftarrow X(i,j)+q,\\
+s_i^{(t+1)}&=s_i^{(t)}-q,\\
+d_j^{(t+1)}&=d_j^{(t)}-q.
+\end{aligned}
+```
+
+Margin lainnya tetap. Nonaktifkan baris jika sisa pasokannya nol dan kolom jika sisa permintaannya nol. Jika keduanya habis bersamaan, nonaktifkan keduanya.
+
+### Langkah 8. Periksa kondisi untuk iterasi berikutnya
+
+- Jika tersisa **tepat satu baris dan satu kolom aktif**, lanjut ke Langkah 9.
+- Jika masih ada margin positif dan kondisi tersebut belum terpenuhi, ulangi Langkah **4–7** pada sel aktif dengan sisa terbaru.
+- Jika seluruh margin sudah nol setelah Langkah 7, langsung ke Langkah 10.
+
+Satu baris dengan beberapa kolom aktif, atau satu kolom dengan beberapa baris aktif, masih diproses melalui Langkah 4–7. Jangan mengulangi Langkah 2 dan 3.
+
+### Langkah 9. Alokasikan sisa pada sel terakhir
+
+Misalkan baris terakhir adalah $i$ dan kolom terakhir adalah $j$. Karena masalah seimbang, sisa pasokan dan permintaan keduanya sama. Alokasikan seluruh sisa ke $(i,j)$ dan perbarui kedua margin menjadi nol. Tidak perlu menghitung skor atau melakukan tie-breaker lagi.
+
+### Langkah 10. Hitung dan verifikasi biaya total
+
+Hitung total biaya menggunakan **biaya asli**, bukan biaya tereduksi:
+
+```math
+Z=\sum_{i=1}^{m}\sum_{j=1}^{n}C(i,j)X(i,j).
+```
+
+Periksa bahwa seluruh alokasi nonnegatif, jumlah alokasi setiap baris sama dengan pasokan awalnya, dan jumlah alokasi setiap kolom sama dengan permintaan awalnya.
+
+Untuk contoh 3 × 4, urutan alokasinya adalah:
+
+| Tahap | Sel | Unit | Biaya asli per unit | Biaya tahap |
+|---|:---:|---:|---:|---:|
+| Iterasi 1 | (3,2) | 15 | 1 | 15 |
+| Iterasi 2 | (3,1) | 10 | 1 | 10 |
+| Iterasi 3 | (1,1) | 20 | 5 | 100 |
+| Iterasi 4 | (2,3) | 20 | 4 | 80 |
+| Alokasi sisa, Langkah 9 | (2,4) | 10 | 2 | 20 |
+| **Total** | | **75** | | **225** |
+
+```math
+X=\begin{bmatrix}
+20&0&0&0\\
+0&0&20&10\\
+10&15&0&0
+\end{bmatrix},\qquad
+Z=20(5)+20(4)+10(2)+10(1)+15(1)=225.
+```
+
+Nilai 225 adalah **total biaya transportasi**. Total unit yang dialokasikan adalah 75. Metode ini menghasilkan solusi awal layak dan tidak menjamin biaya optimum pada setiap kasus.
 
 ## Flowchart VRB
 
-Diagram pertama menunjukkan alur dari membaca input sampai validasi biaya akhir. Diagram kedua merinci cara memilih calon dalam satu garis dan cara menyelesaikan seri antar garis.
+Diagram pertama mengikuti Langkah 1–10, termasuk pemisahan reduksi baris dan kolom, pengulangan mulai Langkah 4, serta alokasi langsung pada sel terakhir. Diagram kedua merinci pemilihan sel calon dan urutan tie-breaker.
 
-![Flowchart VRB dari persiapan input sampai alokasi dan validasi](img/flowchart.svg)
+![Alur VRB sesuai presentasi: persiapan, reduksi, skor, alokasi, dan biaya total](img/flowchart.svg)
 
-![Flowchart pemilihan sel dan tie-break kelangkaan FLC](img/flowchart-tiebreak.svg)
+![Pemilihan calon dan tie-breaker dengan hitungan berdasarkan nilai FLC sel calon](img/flowchart-tiebreak.svg)
+
 
 ## Contoh G3_N33 dari dataset 69
 
