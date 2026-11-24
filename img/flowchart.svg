@@ -10,7 +10,7 @@
 <title>VRB</title>
 <polygon fill="white" stroke="none" points="-28.8,28.8 -28.8,-2067.95 1198.19,-2067.95 1198.19,28.8 -28.8,28.8"/>
 <text xml:space="preserve" text-anchor="middle" x="584.7" y="-2012.35" font-family="DejaVu Sans" font-size="24.00" fill="#19354b">DIAGRAM 1 · ALUR PERHITUNGAN VRB</text>
-<text xml:space="preserve" text-anchor="middle" x="584.7" y="-1978.6" font-family="DejaVu Sans" font-size="24.00" fill="#19354b">Langkah 1–10 sesuai presentasi kelompok</text>
+<text xml:space="preserve" text-anchor="middle" x="584.7" y="-1978.6" font-family="DejaVu Sans" font-size="24.00" fill="#19354b">Langkah 1–10</text>
 <!-- start -->
 <g id="node1" class="node">
 <title>start</title>
